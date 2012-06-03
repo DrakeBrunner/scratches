@@ -1,0 +1,70 @@
+#!/bin/sh
+
+########## FUNCTIONS ##########
+
+# Function for prompting
+prompt_user() {
+    while :; do
+        read PROMPT
+        if [ $PROMPT = 'yes' -o $PROMPT = 'y' -o $PROMPT = 'ye' ]; then
+            return 1
+        elif [ $PROMPT = 'no' -o $PROMPT = 'n' ]; then
+            return 0
+        else
+            echo "Please enter yes or no!\n"
+        fi
+    done
+}
+
+#Function for renaming
+rename() {
+    local BASENAME=`basename $1`
+    if [ -e ~/.trash/$BASENAME ]; then
+        rename "$BASENAME.old"
+        echo "Found file with the same name.\nRenaming ~/.trash/$BASENAME to $BASENAME.old\n"
+        mv ~/.trash/$BASENAME ~/.trash/$BASENAME.old
+    fi
+}
+
+########## MAIN FUNCTION ##########
+
+# Warn user if there are no arguments
+if [ ! $1 ]; then
+    echo "You haven't specified any file(s) to process!\nUSAGE: $0 file1, file2..."
+    exit
+fi
+
+# Warn and prompt user to create .trash if it does not exist
+if [ ! -d ~/.trash/ ]; then
+    echo "Recycle-bin directory (~/.trash/) doesn't exist."
+    while :; do
+        echo "Create?(yes/no) "
+        prompt_user
+        ANSWER=$?
+        if [ $ANSWER = 1 ]; then
+            echo "Making new directory..."
+            mkdir ~/.trash/
+            break
+        elif [ $ANSWER = 0 ]; then
+            echo "Okay then...goodbye :)"
+            exit
+        fi
+    done
+fi
+
+# When a file with the same name is found in the .trash directory,     
+# rename (add .old to the extension). The objective of this script, right?
+for ARGV in $*; do
+    # Warn and skip if specified file doesn't exist
+    if [ ! -e $ARGV ]; then
+        echo "$ARGV does not exist!"
+        continue
+    fi
+    rename $ARGV
+    mv $ARGV ~/.trash/
+done
+
+# Finally, a polite notification to the user
+echo "Finished moving file(s) to recycle-bin!"
+
+# I just hate it when I have to put the main function in the bottom :P
