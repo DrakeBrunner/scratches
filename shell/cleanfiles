@@ -13,7 +13,7 @@ if [ ! -d ~/.trash/ ]; then
 fi
 
 for EXTENSION in $*; do
-    for BASE in `ls -a ~/.trash/*.$EXTENSION`; do
+    for BASE in `ls -a ~/.trash/*.$EXTENSION 2>/dev/null`; do
         basename $BASE .$EXTENSION | sort
     done
 done
