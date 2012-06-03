@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Function that removes files
+remove (){
+    for FILE in $*; do
+        BASE=`basename $FILE | sed -e 's%\..*%%'`
+        if [ -e $BASE.tex ]; then
+            echo "\"$BASE.tex\" existed so I deleted;"
+            if [ -e $BASE.dvi ]; then
+                rm $BASE.dvi
+                echo "\t$BASE.dvi"
+            fi
+            if [ -e $BASE.aux ]; then
+                rm $BASE.aux
+                echo "\t$BASE.aux"
+            fi
+            if [ -e $BASE.log ]; then
+                rm $BASE.log
+                echo "\t$BASE.log"
+            fi
+        else
+            echo "NOT deleting \"$FILE\" because \"$BASE.tex\" does not exist."
+        fi
+    done
+}
+
+for EXTENSION in aux dvi log; do
+    remove `ls -a *.$EXTENSION 2>/dev/null`
+done
