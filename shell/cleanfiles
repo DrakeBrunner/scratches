@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Warn user if there are no arguments
+if [ ! $1 ]; then
+    echo "You haven't specified any extension(s) to process!\nUSAGE: $0 extension1, extension2..."
+    exit
+fi
+
+# Warn user if .trash does not exist
+if [ ! -d ~/.trash/ ]; then
+    echo "Recycle-bin directory (~/.trash/) doesn't exist.\nExiting..."
+    exit
+fi
+
+for EXTENSION in $*; do
+    for BASE in `ls -a ~/.trash/*.$EXTENSION | sort`; do
+        basename $BASE
+    done
+done
