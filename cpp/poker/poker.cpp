@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Prototypes
 void play_game();
 template <class confirm_this> bool confirm( confirm_this data );
 
@@ -19,7 +20,6 @@ int main(int argc, char const* argv[])
             continue;
         else
             break;
-
     }
 
     return 0;
@@ -27,11 +27,15 @@ int main(int argc, char const* argv[])
 
 void play_game() {
     int player_num = 0;
-    cout << "Please enter the number of players: ";
-    cin >> player_num;
+    while (true) {
+        cout << "Please enter the number of players: ";
+        cin >> player_num;
 
-    if (confirm(player_num) == false)
-        return;
+        if (confirm(player_num) == true)
+            break;
+    }
+
+
 }
 
 template <class confirm_this> bool confirm( confirm_this data ) {
