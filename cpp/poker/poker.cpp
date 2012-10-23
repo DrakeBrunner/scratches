@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "players.h"
+#include "Players.h"
 
 using namespace std;
 
@@ -35,7 +35,7 @@ void play_game() {
             break;
     }
 
-
+    Player naoki = new Player("naoki", 1000, "BB");
 }
 
 template <class confirm_this> bool confirm( confirm_this data ) {
