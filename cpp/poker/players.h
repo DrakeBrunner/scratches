@@ -3,12 +3,18 @@ using namespace std;
 
 class Player {
     private:
-        string Name;
-        int Possesion;
-        string Blind;
+        string name;
+        int possesion;
+        string blind;
     public:
-        // Constructer
-        Player(string name, int amount, string blind);
+        // Declaration of Constructer
+        Player();
+        Player(string name);
+        Player(int possesion);
+        Player(string name, int possesion);
+        Player(string name, string blind);
+        Player(int possesion, string blind);
+        Player(string name, int possesion, string blind);
 
         void setName(string name);
         string getName();
@@ -20,37 +26,81 @@ class Player {
         string getBlind();
 };
 
+// Constructer
+Player::Player() {
+    name = "";
+    possesion = 0;
+    blind = "";
+}
+
+Player::Player(string name) {
+    setName(name);
+    possesion = 0;
+    blind = "";
+}
+
+Player::Player(int possesion) {
+    name = "";
+    this->possesion = possesion;
+    blind = "";
+}
+
+Player::Player(string name, int possesion) {
+    setName(name);
+    this->possesion = possesion;
+    blind = "";
+}
+
+Player::Player(string name, string blind) {
+    setName(name);
+    possesion = 0;
+    blind = "";
+}
+
+Player::Player(int possesion, string blind) {
+    name = "";
+    this->possesion = possesion;
+    blind = "";
+}
+
+Player::Player(string name, int possesion, string blind) {
+    setName(name);
+    this->possesion = possesion;
+    setBlind(blind);
+}
+// End of Constructer
+
 void Player::setName(string name) {
-    Name = name;
+    this->name = name;
 }
 
 string Player::getName() {
-    return Name;
+    return name;
 }
 
 void Player::subPos(int amount) {
-    if (Possesion > amount)
-        Possesion -= amount;
+    if (possesion > amount)
+        possesion -= amount;
     else
         cout << "Invalid amount!\n";
 }
 
 void Player::addPos(int amount) {
-    Possesion += amount;
+    possesion += amount;
 }
 
 int Player::getPos() {
-    return Possesion;
+    return possesion;
 }
 
 void Player::setBlind() {
-    Blind = "";
+    blind = "";
 }
 
 void Player::setBlind(string blind) {
-    Blind = blind;
+    this->blind = blind;
 }
 
 string Player::getBlind() {
-    return Blind;
+    return blind;
 }

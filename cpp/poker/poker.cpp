@@ -35,7 +35,10 @@ void play_game() {
             break;
     }
 
-    Player naoki = new Player("naoki", 1000, "BB");
+    Player naoki;
+    cout << "Name: " << naoki.getName() << '\n';
+    cout << "Possesion: " << naoki.getPos() << '\n';
+    cout << "Blind: " << naoki.getBlind() << '\n';
 }
 
 template <class confirm_this> bool confirm( confirm_this data ) {
