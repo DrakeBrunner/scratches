@@ -16,8 +16,10 @@ class Player {
         Player(int possesion, string blind);
         Player(string name, int possesion, string blind);
 
+        void setName();
         void setName(string name);
         string getName();
+        void setPos(int possesion);
         void subPos(int amount);
         void addPos(int amount);
         int getPos();
@@ -28,39 +30,39 @@ class Player {
 
 // Constructer
 Player::Player() {
-    name = "";
+    setName();
     possesion = 0;
-    blind = "";
+    setBlind();
 }
 
 Player::Player(string name) {
     setName(name);
     possesion = 0;
-    blind = "";
+    setBlind();
 }
 
 Player::Player(int possesion) {
-    name = "";
+    setName();
     this->possesion = possesion;
-    blind = "";
+    setBlind();
 }
 
 Player::Player(string name, int possesion) {
     setName(name);
     this->possesion = possesion;
-    blind = "";
+    setBlind();
 }
 
 Player::Player(string name, string blind) {
     setName(name);
     possesion = 0;
-    blind = "";
+    setBlind();
 }
 
 Player::Player(int possesion, string blind) {
-    name = "";
+    setName();
     this->possesion = possesion;
-    blind = "";
+    setBlind();
 }
 
 Player::Player(string name, int possesion, string blind) {
@@ -70,12 +72,20 @@ Player::Player(string name, int possesion, string blind) {
 }
 // End of Constructer
 
+void Player::setName() {
+    name = "";
+}
+
 void Player::setName(string name) {
     this->name = name;
 }
 
 string Player::getName() {
     return name;
+}
+
+void Player::setPos(int possesion) {
+    this->possesion = possesion;
 }
 
 void Player::subPos(int amount) {
