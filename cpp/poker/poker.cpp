@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "Players.h"
+#include "Cards.h"
 
 using namespace std;
 
@@ -71,8 +72,14 @@ void play_game() {
 
         cout << "Is this correct? (Y/n) ";
         if (confirm() == false)
+            // Redo loop if answer is no
             i--;
     }
+
+    Cards card = new Cards;
+    int[] result_tmp = card.pickCard();
+    cout << result_tmp[0] << ", " << result_tmp[1] << '\n';
+
 }
 
 bool confirm() {
