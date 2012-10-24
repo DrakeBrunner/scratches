@@ -1,13 +1,14 @@
-#include <stdio.h>
 #include <iostream>
 #include <string>
+#include <stdio.h>
+#include <time.h>
 #include "Players.h"
-#include "Cards.h"
 
 using namespace std;
 
 // Prototypes
 void play_game();
+int pickCard();
 bool confirm();
 
 int main(int argc, char const* argv[])
@@ -77,9 +78,15 @@ void play_game() {
     }
 
     Cards card = new Cards;
-    int[] result_tmp = card.pickCard();
+    int[0] result_tmp = card.pickCard();
     cout << result_tmp[0] << ", " << result_tmp[1] << '\n';
 
+}
+
+int generate_rand(int limit) {
+    srand( (unsigned int)time(NULL) );
+
+    return rand() % limit + 1;
 }
 
 bool confirm() {
