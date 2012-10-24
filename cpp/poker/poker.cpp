@@ -8,7 +8,7 @@ using namespace std;
 
 // Prototypes
 void play_game();
-int pickCard();
+int generate_rand();
 bool confirm();
 
 int main(int argc, char const* argv[])
@@ -77,16 +77,17 @@ void play_game() {
             i--;
     }
 
-    Cards card = new Cards;
-    int[0] result_tmp = card.pickCard();
-    cout << result_tmp[0] << ", " << result_tmp[1] << '\n';
+    generate_rand();
 
 }
 
-int generate_rand(int limit) {
+int generate_rand() {
     srand( (unsigned int)time(NULL) );
 
-    return rand() % limit + 1;
+    int suit = rand() % 4 + 1;
+    int number = rand() % 13 + 1;
+    // DEBUG
+    printf("suit %d, number %d\n", suit, number);
 }
 
 bool confirm() {
