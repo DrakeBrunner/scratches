@@ -10,7 +10,7 @@ using namespace std;
 // Prototypes
 void play_game();
 int generate_rand();
-string codeToString(int card_code);
+void codeToString(int card_code, string* suit, string* number);
 bool confirm();
 
 int main(int argc, char const* argv[])
@@ -97,7 +97,7 @@ int generate_rand() {
     return card_code;
 }
 
-void codeToString(int card_code, string *suit, string *number) {
+void codeToString(int card_code, string* suit, string* number) {
     // Explanation of how it works;
     // card_code is something like 123, 51, 42
     // The last digit represents the suit,
@@ -134,7 +134,7 @@ void codeToString(int card_code, string *suit, string *number) {
         case 13:
             number = "King";    break;
         default:
-            number = number_code;
+            number = string(itoa(number_code));
     }
 }
 
