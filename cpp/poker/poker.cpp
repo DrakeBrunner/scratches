@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include "Players.h"
 
@@ -9,6 +10,7 @@ using namespace std;
 // Prototypes
 void play_game();
 int generate_rand();
+string codeToString(int card_code);
 bool confirm();
 
 int main(int argc, char const* argv[])
@@ -77,17 +79,63 @@ void play_game() {
             i--;
     }
 
-    generate_rand();
+    cout << generate_rand() << '\n';
+    string suit, num;
+    codeToString(generate_rand(), &suit, &num);
+    cout << suit << '\n' << num << '\n';
 
 }
 
 int generate_rand() {
-    srand( (unsigned int)time(NULL) );
+    srand((unsigned int)time(NULL));
 
-    int suit = rand() % 4 + 1;
+    int suit = rand() % 4;
     int number = rand() % 13 + 1;
-    // DEBUG
-    printf("suit %d, number %d\n", suit, number);
+    // See below for explanation
+    int card_code = 10 * number + suit;
+
+    return card_code;
+}
+
+void codeToString(int card_code, string *suit, string *number) {
+    // Explanation of how it works;
+    // card_code is something like 123, 51, 42
+    // The last digit represents the suit,
+    // meaning it can only be 0, 1, 2, 3
+    // 0 => Spades
+    // 1 => Hearts
+    // 2 => Diamonds
+    // 3 => Clubs
+    //
+    // The rest of the digits represent the number of the card.
+    // For example, 123 means Queen of Clubs,
+    // 51 is 5 of Hearts, 42 is 4 of Diamonds.
+    int suit_code = card_code % 10;
+    int number_code = (int)(card_code / 10);
+
+    switch (suit_code) {
+        case 0:
+            suit = "Spades";    break;
+        case 1:
+            suit = "Hearts";    break;
+        case 2:
+            suit = "Diamonds";  break;
+        case 3:
+            suit = "Clubs";     break;
+    }
+
+    switch (number_code) {
+        case 1:
+            number = "Ace";     break;
+        case 11:
+            number = "Jack";    break;
+        case 12:
+            number = "Queen";   break;
+        case 13:
+            number = "King";    break;
+        default:
+            number = number_code;
+    }
 }
 
 bool confirm() {
