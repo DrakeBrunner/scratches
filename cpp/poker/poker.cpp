@@ -10,7 +10,7 @@ using namespace std;
 // Prototypes
 void play_game();
 int generate_rand();
-string codeToString(int card_code);
+string codeToString(int card_code, string *suit, string *number);
 bool confirm();
 
 int main(int argc, char const* argv[])
