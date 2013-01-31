@@ -1,4 +1,4 @@
-/home/naoki/src/scratches/android/helloworld/gen/com/example/Hello/R.java \
+/home/naoki/src/scratches/android/helloworld/gen/com/example/myfirstapp/R.java \
  : /home/naoki/src/scratches/android/helloworld/res/drawable-ldpi/ic_launcher.png \
 /home/naoki/src/scratches/android/helloworld/res/drawable-mdpi/ic_launcher.png \
 /home/naoki/src/scratches/android/helloworld/res/drawable-xhdpi/ic_launcher.png \

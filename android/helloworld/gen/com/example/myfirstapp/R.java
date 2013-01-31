@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.Hello;
+package com.example.myfirstapp;
 
 public final class R {
     public static final class attr {
@@ -24,7 +24,6 @@ public final class R {
         public static final int button_send=0x7f040002;
         public static final int edit_message=0x7f040001;
         public static final int menu_settings=0x7f040003;
-        public static final int title_activity_display_message=0x7f040005;
         public static final int title_activity_main=0x7f040004;
     }
 }
