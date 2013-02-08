@@ -1,0 +1,103 @@
+#!/usr/bin/python
+
+# Quick sort algorith for python
+
+import random
+
+def quicksort(a):
+    l = 0
+    r = len(a) - 1
+    lstack = []
+    rstack = []
+
+    lstack.append(l)
+    rstack.append(r)
+    stack = 1
+
+    while stack > 0:
+        l = lstack.pop()
+        r = rstack.pop()
+        stack -= 1
+
+        if r - l <= 1:
+            continue
+
+        # add bubble
+
+        center = partition(a, l, r)
+
+        # push to right
+        if center + 1 < r:
+            lstack.append(center + 1)
+            rstack.append(r)
+            stack += 1
+        # push to left
+        else:
+            lstack.append(l)
+            rstack.append(center - 1)
+            stack += 1
+
+def partition(a, l, r):
+    p = pivot(a, l, r)
+
+    # swap pivot and left
+    tmp = a[p]
+    a[p] = a[l]
+    a[l] = tmp
+    p = l
+
+    i = l + 1
+    j = r
+
+    while True:
+        while i < r and a[i] < a[p]:
+            i += 1
+        while j > 0 and a[j] > a[p]:
+            j -= 1
+
+        if i >= j:
+            break
+
+        # Swap i and j
+        tmp = a[i]
+        a[i] = a[j]
+        a[j] = tmp
+
+        i += 1
+        j -= 1
+
+    # swap pivot and center
+    tmp = a[j]
+    a[j] = a[p]
+    a[p] = tmp
+
+    return j
+
+def pivot(a, l, r):
+    mid = (l + r) / 2
+
+    if a[l] > a[r]:
+        if a[mid] > a[l]:
+            return l
+        elif a[r] > a[mid]:
+            return r
+        else:
+            return mid
+        # return l if a[mid] > a[l] else r if a[r] > a[mid] else mid
+    else:
+        if a[mid] > a[r]:
+            return r
+        elif a[l] > a[mid]:
+            return l
+        else:
+            return mid
+        # return r if a[mid] > a[r] else l if a[l] > a[mid] else mid
+
+# Generate random list
+a = [int(1000 * random.random()) for i in xrange(10)]
+
+print "Before sort"
+print a
+quicksort(a)
+print "After sort"
+print a
