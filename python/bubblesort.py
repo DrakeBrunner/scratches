@@ -14,8 +14,8 @@ def bubblesort(a):
 
 
 # Generate random list
-#a = [int(1000 * random.random()) for i in xrange(10)]
-a = [863, 52, 628, 888, 32, 303, 607, 388, 944, 91]
+a = [int(1000 * random.random()) for i in xrange(10)]
+# a = [863, 52, 628, 888, 32, 303, 607, 388, 944, 91]
 
 print "Before sort"
 print a

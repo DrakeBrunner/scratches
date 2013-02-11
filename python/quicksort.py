@@ -84,25 +84,13 @@ def pivot(a, l, r):
     mid = (l + r) / 2
 
     if a[l] > a[r]:
-        if a[mid] > a[l]:
-            return l
-        elif a[r] > a[mid]:
-            return r
-        else:
-            return mid
-        # return l if a[mid] > a[l] else r if a[r] > a[mid] else mid
+        return l if a[mid] > a[l] else r if a[r] > a[mid] else mid
     else:
-        if a[mid] > a[r]:
-            return r
-        elif a[l] > a[mid]:
-            return l
-        else:
-            return mid
-        # return r if a[mid] > a[r] else l if a[l] > a[mid] else mid
+        return r if a[mid] > a[r] else l if a[l] > a[mid] else mid
 
 # Generate random list
-#a = [int(1000 * random.random()) for i in xrange(10)]
-a = [863, 52, 628, 888, 32, 303, 607, 388, 944, 91]
+a = [int(1000 * random.random()) for i in xrange(10)]
+# a = [863, 52, 628, 888, 32, 303, 607, 388, 944, 91]
 
 print "Before sort"
 print a
