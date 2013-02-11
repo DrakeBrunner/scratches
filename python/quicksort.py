@@ -32,7 +32,7 @@ def quicksort(a):
             rstack.append(r)
             stack += 1
         # push to left
-        else:
+        if l < center - 1:
             lstack.append(l)
             rstack.append(center - 1)
             stack += 1
@@ -94,7 +94,8 @@ def pivot(a, l, r):
         # return r if a[mid] > a[r] else l if a[l] > a[mid] else mid
 
 # Generate random list
-a = [int(1000 * random.random()) for i in xrange(10)]
+#a = [int(1000 * random.random()) for i in xrange(10)]
+a = [863, 52, 628, 888, 32, 303, 607, 388, 944, 91]
 
 print "Before sort"
 print a
