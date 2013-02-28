@@ -7,39 +7,39 @@ This is a program that allow users to play Texas Holdem'
 
 Files
 -----
-Poker.cpp		-> Main program  
+Poker.cpp       -> Main program  
 * * *
 
-Player.cpp		-> Keeps track of user data  
-	-string name  
-	-int money  
-	-string hand  
+Player.cpp      -> Keeps track of user data  
+:   -string name  
+:   -int money  
+:   -string hand  
 * * *
-*   +int getName(void)  
-*   +int getMoney(void)  
-*   +void addMoney(int)  
-*   +void setName(string)  
-*   +bool isBB(void)  
-*   +bool isSB(void)  
-*   +bool isDealer(void)  
-* * *
-
-Cards.cpp		-> Do card-related stuff (dealing, generating...)  
+:   +int getName(void)  
+:   +int getMoney(void)  
+:   +void addMoney(int)  
+:   +void setName(string)  
+:   +bool isBB(void)  
+:   +bool isSB(void)  
+:   +bool isDealer(void)  
 * * *
 
-Hands.cpp		-> Check hand strength, judge winner, etc...  
+Cards.cpp       -> Do card-related stuff (dealing, generating...)  
 * * *
-	+string nameOfHand(string)
-	+string checkWinner(Player[])
-	-int tieBreaker(Player[])  
-	+void listHands(void)  
 
-Money.cpp		-> Do money-related stuff  
-	-int moneyOnTable  
+Hands.cpp       -> Check hand strength, judge winner, etc...  
 * * *
-	+int getMoneyOnTable(void)  
-	+void addMoneyToTable(string, int)  
-	+void giveMoneyToWinner(string, int)  
+    +string nameOfHand(string)
+    +string checkWinner(Player[])
+    -int tieBreaker(Player[])  
+    +void listHands(void)  
+
+Money.cpp       -> Do money-related stuff  
+    -int moneyOnTable  
+* * *
+    +int getMoneyOnTable(void)  
+    +void addMoneyToTable(string, int)  
+    +void giveMoneyToWinner(string, int)  
 
 To-Do
 -----
