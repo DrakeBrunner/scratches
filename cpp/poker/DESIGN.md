@@ -3,12 +3,12 @@ Poker Program
 
 Description
 -----------
-This is a program that allows users to play Texas Holdem'
+This is a program that allows users to play Texas Holdem'  
 
 Files
 -----
 *   Poker.cpp       -> Main program  
-    +Player[] players
+    +Player[] players  
 
 *   Player.cpp      -> Keeps track of user data  
     -string name  
@@ -24,23 +24,15 @@ Files
     +bool isDealer(void)  
     +string toString(void)  
 
-*   Dealer.cpp       -> Do stuff that a Dealer normally does (dealing, generating...)  
-    -Card[][] deckOfCards  
-  
-    +void collectMoney(Player, int)  
-    +void dealCard(Player)  
-    -Card pickRandomCard(void)  
-    +Player checkWinner(Player[])  
-    +void listOfHands(void)  
-
-*   Hands.cpp       -> Check hand strength, judge winner, etc...  
+*   Hands.cpp       -> A set of Cards
     -Card[] myCards  
+    -Card[] publicCards  
   
     +string nameOfHand(string)  
     -int tieBreaker(Player[])  
     +string toString(void)  
 
-    *   Card.cpp    -> Represents one card
+    *   Card.cpp    -> Represents one card  
         -int suit  
         -int rank  
   
@@ -52,12 +44,25 @@ Files
         +void setRank(int)  
         +string toString(void)  
 
-*   TableMoney.cpp       -> Manage money on the table
+*   Table.cpp       -> Manage things on the table  
     -int moneyOnTable  
+    -Card[] publicCards  
   
+    +Card[] getPublicCards(void)  
+    +void appendPublicCard(Card)  
+    +void setPublicCard(Card, int)  
     +int getMoneyOnTable(void)  
     +void addMoneyToTable(string, int)  
     +void giveMoneyToWinner(string, int)  
+
+    *   Dealer.cpp extends Table    -> Do stuff that a Dealer normally does (dealing, generating...)  
+        -Card[][] deckOfCards  
+    
+        +void collectMoney(Player, int)  
+        +void dealCard(Player)  
+        -Card pickRandomCard(void)  
+        +Player checkWinner(Player[])  
+        +void listOfHands(void)  
 
 To-Do
 -----
@@ -66,3 +71,6 @@ Reconsider methods in Hands.cpp
 Add AI players  
 How to avoid duplicate card dealing in Dealer.cpp  
 Bet, raise, fold...  
+Necessity of Card[] publicCards in Hands.cpp  
+Necessity of setPublicCard in Table.cpp (do we ever set Nth card?)  
+Be careful about returning array reference in Table.cpp  
