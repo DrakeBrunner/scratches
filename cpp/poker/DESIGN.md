@@ -15,13 +15,13 @@ Player.cpp		-> Keeps track of user data
 	-int money  
 	-string hand  
 * * *
-	+int getName(void)  
-	+int getMoney(void)  
-	+void addMoney(int)  
-	+void setName(string)  
-	+bool isBB(void)  
-	+bool isSB(void)  
-	+bool isDealer(void)  
+*   +int getName(void)  
+*   +int getMoney(void)  
+*   +void addMoney(int)  
+*   +void setName(string)  
+*   +bool isBB(void)  
+*   +bool isSB(void)  
+*   +bool isDealer(void)  
 * * *
 
 Cards.cpp		-> Do card-related stuff (dealing, generating...)  
