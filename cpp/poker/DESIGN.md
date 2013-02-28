@@ -3,16 +3,17 @@ Poker Program
 
 Description
 -----------
-This is a program that allow users to play Texas Holdem'
+This is a program that allows users to play Texas Holdem'
 
 Files
 -----
 *   Poker.cpp       -> Main program  
+    +Player[] players
 
 *   Player.cpp      -> Keeps track of user data  
     -string name  
     -int money  
-    -string hand  
+    -Hands hand  
   
     +int getName(void)  
     +int getMoney(void)  
@@ -21,16 +22,37 @@ Files
     +bool isBB(void)  
     +bool isSB(void)  
     +bool isDealer(void)  
+    +string toString(void)  
 
-*   Cards.cpp       -> Do card-related stuff (dealing, generating...)  
+*   Dealer.cpp       -> Do stuff that a Dealer normally does (dealing, generating...)  
+    -Card[][] deckOfCards  
+  
+    +void collectMoney(Player, int)  
+    +void dealCard(Player)  
+    -Card pickRandomCard(void)  
+    +Player checkWinner(Player[])  
+    +void listOfHands(void)  
 
 *   Hands.cpp       -> Check hand strength, judge winner, etc...  
-    +string nameOfHand(string)
-    +string checkWinner(Player[])
+    -Card[] myCards  
+  
+    +string nameOfHand(string)  
     -int tieBreaker(Player[])  
-    +void listHands(void)  
+    +string toString(void)  
 
-*   Money.cpp       -> Do money-related stuff  
+    *   Card.cpp    -> Represents one card
+        -int suit  
+        -int rank  
+  
+        +int getSuit(void)  
+        +int getRank(void)  
+        +string getStringSuit(void)  
+        +string getStringRank(void)  
+        +void setSuit(int)  
+        +void setRank(int)  
+        +string toString(void)  
+
+*   TableMoney.cpp       -> Manage money on the table
     -int moneyOnTable  
   
     +int getMoneyOnTable(void)  
@@ -40,6 +62,7 @@ Files
 To-Do
 -----
 Complete the UML diagram  
-Reconsider the "hand" representation
 Reconsider methods in Hands.cpp  
 Add AI players  
+How to avoid duplicate card dealing in Dealer.cpp  
+Bet, raise, fold...  
