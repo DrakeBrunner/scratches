@@ -14,7 +14,16 @@ public class MainActivity extends Activity {
 		// Do something in response to the button click
 		Intent intent = new Intent(this, DisplayMessageActivity.class);
 		EditText editText = (EditText)findViewById(R.id.edit_message);
-		String message = editText.getText().toString();
+		String message = editText.getText().toString() + " and a message from the developer";
+		intent.putExtra(EXTRA_MESSAGE, message);
+		startActivity(intent);
+	}
+	
+	public void surprise(View view) {
+		// Another button
+		Intent intent = new Intent(this, Another.class);
+		EditText editText = (EditText)findViewById(R.id.edit_message);
+		String message = "Surprise!!!\n" + editText.getText().toString();
 		intent.putExtra(EXTRA_MESSAGE, message);
 		startActivity(intent);
 	}

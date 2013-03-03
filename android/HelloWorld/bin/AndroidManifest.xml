@@ -30,6 +30,11 @@
             android:name="com.example.helloworld.DisplayMessageActivity"
             android:label="@string/title_activity_display_message" >
         </activity>
-    </application>
+        <activity 
+            android:name="com.example.helloworld.Another"
+            android:label="@string/title_another"
+            android:parentActivityName="com.example.helloworld.MainActivity" >
+        </activity>
+        </application>
 
 </manifest>
