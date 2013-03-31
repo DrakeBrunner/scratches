@@ -2,9 +2,9 @@
 *.out
 
 .metadata
+# Other repositories
 gt_record
-
-# Temporary name. Change required
+algorithms
 android/Twier
 
 # For Android apps
