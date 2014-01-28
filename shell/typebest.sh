@@ -18,12 +18,14 @@ if [ ! -d $TYPEBEST_DIR/bin ]; then
 fi
 
 cd $TYPEBEST_DIR/src
-javac -d $TYPEBEST_DIR/bin $SOURCE
+javac -cp $TYPEBEST_DIR/src:$DERBY_DIR -d $TYPEBEST_DIR/bin $SOURCE
 
 cd $TYPEBEST_DIR/bin
+# Copy derby libraries to bin
+cp $DERBY_DIR/derby*.jar .
 CLASS_DIR=`find . -name 'MainWindow.class' | xargs dirname`
 mkdir $TYPEBEST_DIR/bin/TypeBest
-jar cvfe TypeBest/TypeBest.jar MainWindow $CLASS_DIR/*.class $DERBY_DIR/derby*.jar
+jar cvfe TypeBest/TypeBest.jar MainWindow $CLASS_DIR/*.class derby*.jar
 
 cp -r $TYPEBEST_DIR/dic $TYPEBEST_DIR/bin/TypeBest
 cp $TYPEBEST_DIR/LICENSE $TYPEBEST_DIR/bin/TypeBest
