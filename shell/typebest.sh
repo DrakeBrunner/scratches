@@ -4,7 +4,7 @@ echo "Cron job running at" `date`
 
 TYPEBEST_DIR=~/src/java/typebest
 SOURCE=`find $TYPEBEST_DIR -name 'MainWindow.java'`
-DERBY_DIR=~/lib/derby
+TYPEBEST_LIB=~/lib/typebest
 
 if [ ! -d $TYPEBEST_DIR ]; then
     git clone https://github.com/NigoroJr/typebest $TYPEBEST_DIR
@@ -18,14 +18,14 @@ if [ ! -d $TYPEBEST_DIR/bin ]; then
 fi
 
 cd $TYPEBEST_DIR/src
-javac -cp $TYPEBEST_DIR/src:$DERBY_DIR -d $TYPEBEST_DIR/bin $SOURCE
+javac -cp $TYPEBEST_DIR/src:$TYPEBEST_LIB -d $TYPEBEST_DIR/bin $SOURCE
 
 cd $TYPEBEST_DIR/bin
 # Copy derby libraries to bin
-cp $DERBY_DIR/derby*.jar .
+cp -r $TYPEBEST_LIB/* .
 CLASS_DIR=`find . -name 'MainWindow.class' | xargs dirname`
 mkdir $TYPEBEST_DIR/bin/TypeBest
-jar cvfe TypeBest/TypeBest.jar MainWindow $CLASS_DIR/*.class derby*.jar
+jar cvfm TypeBest/TypeBest.jar META-INF/MANIFEST.MF $CLASS_DIR/*.class derby*.jar org/
 
 cp -r $TYPEBEST_DIR/dic $TYPEBEST_DIR/bin/TypeBest
 cp $TYPEBEST_DIR/LICENSE $TYPEBEST_DIR/bin/TypeBest
