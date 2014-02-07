@@ -16,6 +16,13 @@ syscall
 move $s0, $v0	# Memorize length of the array
 jr $ra
 
+alloc:
+mul $a0, $s0, 4	# Calculate how much bytes the array needs
+li $v0, 9		# Prepare to dynamically allocate memory
+syscall
+move $sp, $v0	# Change stack pointer to the beginning of array
+jr $ra
+
 for:
 
 addi $t0, $t0, 1	# Increment counter (i++)
@@ -31,7 +38,8 @@ jal end
 
 main:
 jal length		# Get length of the array
-addi $s1, $sp, 0	# Save the stack pointer for beginning of the array
+jal alloc		# allacate memory
+move $s1, $sp	# Save the stack pointer for beginning of the array
 jal for
 
 end:
