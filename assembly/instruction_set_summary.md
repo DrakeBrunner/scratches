@@ -22,7 +22,7 @@
 When you want to subtract an int, for example, `$a = $b - 3`, use `addi $a,
 $b, -3` or `subi $a, $b, 3`.
 
-## Lable
+## Label
 `LABEL_NAME:` creates a label
 
 ## Others
