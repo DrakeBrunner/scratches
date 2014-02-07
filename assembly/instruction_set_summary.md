@@ -14,7 +14,7 @@
 * `beq $a, $b, LABEL` Jump to LABEL if $a == $b is true
 * `bne $a, $b, LABEL` Jump to LABEL if $a != $b is true
 
-# Arithmetic
+## Arithmetic
 * `add $a, $b, $c` Set $a = $b + $c
 * `addi $a, $b, NUM` Set $a = $b + NUM
 * `sub $a, $b, $c` Set $a = $b - $c
@@ -22,10 +22,10 @@
 When you want to subtract an int, for example, `$a = $b - 3`, use `addi $a,
 $b, -3` or `subi $a, $b, 3`.
 
-# Lable
+## Lable
 `LABEL_NAME:` creates a label
 
-# Others
+## Others
 * `move $a, $b` Copies the content of address $b to $a
 * `li $v0, SYS_CODE` loads the system code
     * 1 prints content of `$a0`
