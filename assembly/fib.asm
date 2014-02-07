@@ -1,3 +1,6 @@
+# Completely copied from:
+# https://github.com/brimcfadden/MIPS-practice/blob/master/fib.asm
+
 j main                      # Jump to the main() procedure.
 
 fib:
