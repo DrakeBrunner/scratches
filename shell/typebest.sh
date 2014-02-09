@@ -13,6 +13,10 @@ compile() {
 }
 
 create_jar() {
+    if [ ! -d $TYPEBEST_DIR/bin ]; then
+        mkdir $TYPEBEST_DIR/bin
+    fi
+
     cd $TYPEBEST_DIR/bin
     # Copy derby libraries to bin
     cp -r $TYPEBEST_LIB/* .
@@ -56,7 +60,3 @@ mv TypeBest.tar.gz /home/ftp/naoki/typebest/
 
 # Remove bin directory
 rm -r $TYPEBEST_DIR/bin
-
-if [ ! -d $TYPEBEST_DIR/bin ]; then
-    mkdir $TYPEBEST_DIR/bin
-fi
