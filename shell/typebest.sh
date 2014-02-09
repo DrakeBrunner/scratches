@@ -40,6 +40,12 @@ fi
 cd $TYPEBEST_DIR
 
 
+PULL_RESULT=`git pull origin master 2>&1 | grep "Already"`
+# Check for update
+if [ "$PULL_RESULT" = "Already up-to-date." ]; then
+    echo "No changes"
+    exit 0
+fi
 
 compile
 
