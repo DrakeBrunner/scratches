@@ -5,6 +5,7 @@ echo "Cron job running at" `date`
 TYPEBEST_DIR=~/src/java/typebest
 SOURCE=`find $TYPEBEST_DIR -name 'MainWindow.java'`
 TYPEBEST_LIB=~/lib/typebest
+DEST_DIR=/home/ftp/typebest/
 
 # Functions
 compile() {
@@ -56,7 +57,7 @@ compile
 create_jar
 create_tar
 
-mv TypeBest.tar.gz /home/ftp/naoki/typebest/
+mv TypeBest.tar.gz $DEST_DIR
 
 # Remove bin directory
 rm -r $TYPEBEST_DIR/bin
