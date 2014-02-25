@@ -36,6 +36,13 @@ create_tar() {
     tar czvf TypeBest.tar.gz TypeBest
 }
 
+clean() {
+    # Remove bin directory
+    if [ -d $TYPEBEST_DIR/bin ];then
+        rm -r $TYPEBEST_DIR/bin
+    fi
+}
+
 # end functions
 
 if [ ! -d $TYPEBEST_DIR ]; then
@@ -59,5 +66,4 @@ create_tar
 
 mv TypeBest.tar.gz $DEST_DIR
 
-# Remove bin directory
-rm -r $TYPEBEST_DIR/bin
+clean
