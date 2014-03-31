@@ -10,6 +10,9 @@ DEST_DIR=/home/ftp/typebest/
 # Functions
 compile() {
     cd $TYPEBEST_DIR/src
+    if [ ! -d $TYPEBEST_DIR/bin ];then
+        mkdir $TYPEBEST_DIR/bin
+    fi
     javac -cp $TYPEBEST_DIR/src:$TYPEBEST_LIB -d $TYPEBEST_DIR/bin $SOURCE
 }
 
