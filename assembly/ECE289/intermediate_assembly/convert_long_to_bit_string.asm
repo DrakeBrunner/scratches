@@ -1,4 +1,5 @@
 # Accepts a number and returns the binary representation in string
+# vim: ft=mips expandtab sw=4
 
 # $s0 => original number
 # $s1 => number of bits

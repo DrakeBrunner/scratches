@@ -1,4 +1,5 @@
 # counts the number of 1's in it's binary representation
+# vim: ft=mips expandtab sw=4
 
 # $s0 => the number
 # $s1 => total number of 1

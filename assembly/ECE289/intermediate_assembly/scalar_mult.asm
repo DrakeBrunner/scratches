@@ -1,4 +1,5 @@
 # Calculates the scalar multiplication of a matrix
+# vim: ft=mips expandtab sw=4
 
 # m         => $s0
 # col       => $s1

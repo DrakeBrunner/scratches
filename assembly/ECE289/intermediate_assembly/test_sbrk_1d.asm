@@ -1,4 +1,6 @@
 # test with 1D array
+# vim: ft=mips expandtab sw=4
+
 # $s0 => length of array
 # $s1 => address of first element in array
 # $s2 => address of second sbrk

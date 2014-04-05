@@ -1,4 +1,5 @@
 # test program for sbrk calls
+# vim: ft=mips expandtab sw=4
 
 # $s0 => num of rows
 # $s1 => num of columns
