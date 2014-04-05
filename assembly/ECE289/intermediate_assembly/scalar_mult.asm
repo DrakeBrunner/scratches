@@ -8,53 +8,61 @@
 j main
 
 # Multiplies and sets the first address of the matrix to $s4
+# rtrn addr => $t0
+# i         => $t1
+# j         => $t2
+# ptr_col   => $t3
+# ptr_row   => $t4
+# ptr_orig  => $t5
 matrix_scalar_multiply:
     move $t0, $ra   # Save return address
 
+    mul $t6, $s1, 4 # how many bytes to alloc?
     # Allocate columns
-    move $a0, $s1
+    move $a0, $t6
     li $v0, 9
     syscall
     move $s4, $v0   # Address of first element in matrix
 
-    # Variables used only for allocating
-    li $t3, 0       # loop variable for allocating rows
-    move $t4, $s4   # for allocating each "row"
+    move $t3, $s4   # for allocating each "row"
 
-    li $t1, 0       # Column counter
-    li $t2, 0       # Row counter
-    move $t6, $s4   # iterate through rows (one row to the next)
+    move $t3, $s4   # iterate vertically
     move $t5, $s0   # copy of original matrix
-    # $t8 is used to iterate through "the" row
+
+    # init counter vars
+    li $t1, 0
+    li $t2, 0
 
 # Allocate rows
-loop:
-    bge $t3, $s1, outer_loop
+alloc_loop:
+    bge $t1, $s1, outer_loop
     # Allocate rows for each columns
-    move $a0, $s2
+    mul $t6, $s2, 4 # How many byets?
+    move $a0, $t6
     li $v0, 9
     syscall
 
     # save newly allocated array
-    sw $v0, ($t4)
-    addi $t4, $t4, 4
-    # increment
-    addi $t3, $t3, 1
+    sw $v0, ($t3)
+    addi $t3, $t3, 4
+    addi $t1, $t1, 1    # i++
 
-    j loop
+    j alloc_loop
 
 # Iterate vertically
 outer_loop:
+    # init
+    li $t1, 0
+    move $t3, $s4
+.L1:
     bge $t1, $s1, exit
-
-    lw $t8, ($t6)   # $t8 contains address of first entry in a row
 
     j inner_loop
 outer_loop_2:
     # increment
-    addi $t6, $t6, 4    # Move to next row
+    addi $t3, $t3, 4    # Move to next row
     addi $t1, $t1, 1
-    j outer_loop
+    j .L1
 
 exit:
     # return
@@ -62,23 +70,24 @@ exit:
 
 # Iterate horizontally
 inner_loop:
-    bge $t2, $s2, outer_loop_2
+    li $t2, 0
+    lw $t4, ($t3)       # load address of row
+.L2:
+    bge $t2, $s2, outer_loop_2  # exit inner for loop
 
     # Scalar multiply
-    # Read from original matrix
-    lw $t7, ($t5)
+    lw $t7, ($t5)       # Read from original matrix
     mul $t7, $t7, $s3   # multiply by the scalar
 
     # and store that to the new array
-    sw $t7, ($t8)   # $t8 is the address to the row
+    sw $t7, ($t4)   # $t8 is the address to the row
 
     # move pointers
-    addi $t8, $t8, 4
-    addi $t5, $t5, 4
+    addi $t4, $t4, 4    # of matrix to copy to
+    addi $t5, $t5, 4    # of original matrix (copy from)
 
-    # increment j
-    addi $t2, $t2, 1
-    j inner_loop
+    addi $t2, $t2, 1    # increment j
+    j .L2
 
 # End of function
 
@@ -91,7 +100,8 @@ main:
     li $s3, 4
 
     # Allocate
-    mul $a0, $s1, $s2
+    mul $t6, $s1, $s2
+    mul $a0, $t6, 4   # How many byets to allocate?
     li $v0, 9
     syscall
     # Address of first element in matrix
