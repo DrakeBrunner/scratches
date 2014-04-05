@@ -10,7 +10,7 @@ create:
     move $t0, $ra   # Save returning address
     
     # Alloc rows
-    move $a0, $s0
+    mul $a0, $s0, 4
     li $v0, 9       # sbrk syscall
     syscall
     move $s2, $v0   # save address of first row
@@ -26,7 +26,7 @@ loop:
     bge $t1, $s1, .L2
 
     # allocate rows
-    move $a0, $s1   # prepare to allocate row length
+    mul $a0, $s1, 4 # prepare to allocate row length
     li $v0, 9
     syscall
     sw $v0, ($t2)
@@ -45,6 +45,7 @@ main:
 
     # Allocate
     mul $a0, $s0, $s1
+    mul $a0, $a0, 4
     li $v0, 9
     syscall
     move $s2, $v0   # $s2 is the address of first element in matrix
