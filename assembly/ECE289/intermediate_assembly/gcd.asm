@@ -22,8 +22,8 @@ gcd:
     or $t6, $s0, $s1
     bnez $t6, .L1
 
-    # return 0 when u == 0 || v == 0
-    li $s2, 0
+    # return when u == 0 || v == 0
+    or $s2, $t2, $t3
     jr $t0
 
 # for loop
