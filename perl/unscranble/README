@@ -1,0 +1,22 @@
+This is a readme file for the perl script "unscranble.pl"
+
+Purpose of this sript------------------------------------
+Script was originally made for the mission at
+http://www.hackthissite.org/missions/prog/1/
+
+Usage----------------------------------------------------
+You will need 2 other files apart from the script itself.
+First is the library file, so-called wordlist file.
+It is recommended that the file name be wordlist.txt
+However, you may edit the script and use whatever name you like.
+
+Second is an empty file for writing in the words you have to unscranble.
+As for the Hack This Site mission, you can simply copy the requested words
+and paste them to a file named "to_unscranble.txt"
+
+I did try to make direct standard input available but copy-and-pasting to the
+console wasn't supported in my environment so... sorry :(
+
+
+
+Made by Naoki Mizuno(nm2372@gmail.com)
