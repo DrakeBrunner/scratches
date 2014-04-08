@@ -1,0 +1,1 @@
+NOTE: The provided sample outputs are the outputs of a previous version of the Controller.cpp code that did not eliminate punctuation or remove uppercase. Hence the results and counts will be different than those of the current version.
