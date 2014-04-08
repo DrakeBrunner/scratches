@@ -1,0 +1,90 @@
+2. Playing Compiler
+a.
+int x, y is illega. int x, int y is correct
+No static in method2
+x and y are double in method2. It must be (int) in order to cast.
+In the System.out.println it must be + instead of ,
+Output:
+The output is: 5 years of bad luck
+
+b.
+Not a statement in the second method1 on the line that starts with System.out.println
+Variable i not declared in for loop in second method1.
+Cannot declare int inside System.out.println
+Passing i to an unknown method in main method
+Output:
+0
+I wonder who wrote the book on love
+1
+I wonder who wrote the book on love
+I wonder who wrote the book on love0
+2
+I wonder who wrote the book on love
+I wonder who wrote the book on love0
+I wonder who wrote the book on love1
+3
+I wonder who wrote the book on love
+I wonder who wrote the book on love0
+I wonder who wrote the book on love1
+I wonder who wrote the book on love2
+4
+I wonder who wrote the book on love
+I wonder who wrote the book on love0
+I wonder who wrote the book on love1
+I wonder who wrote the book on love2
+I wonder who wrote the book on love3
+5
+I wonder who wrote the book on love
+I wonder who wrote the book on love0
+I wonder who wrote the book on love1
+I wonder who wrote the book on love2
+I wonder who wrote the book on love3
+I wonder who wrote the book on love4
+
+c.
+The if statement doesn't have a semicolon.
+Output:
+19
+23
+19
+61
+
+d.
+Braces are needed after while statement.
+Output:
+5
+11
+
+e.
+A parenthesis is missing in the third System.out.println in main method
+Output:
+3
+0.0
+0
+0.0
+0
+1.0
+3
+3.0
+3
+4.0
+6
+6.0
+6
+7.0
+9
+9.0
+9
+10.0
+12
+12.0
+12
+13.0
+
+4. Overloaded Methods
+a. i because reference to sub is ambiguous, and both methods match
+ii because double cannot be converted to int
+
+b. ii, iii, iv because double cannot be converted to int
+
+c. mul(int a, int b) is already defined in the class.

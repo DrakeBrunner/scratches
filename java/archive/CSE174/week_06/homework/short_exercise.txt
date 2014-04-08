@@ -1,0 +1,61 @@
+2. Playing Compiler
+a. It contains no errors but the loop never ends because i doesn't change after the loop.
+b. system.out.println causes error. First letter should be upper case. loop ends after one looping since the evaluation will be "true" after first loop.
+c. It causes an error that the evaluation done compares incompatible types.  When changing (j = 1) to (j == 1), it causes an infinite loop.
+d. It doesn't cause an error but the loop will not be executed since the first evaluation turns out false.
+e. float should be changed into double. After changing, the loop will print from 0.0 to 4.999999999999938.
+f. It doesn't cause an error. It will print from 0.0 to 4.999999999999938.
+g. Variable can't be found. 
+h. Displays 3 and ends loop
+i. Error since there is no semicolon. It will infinitely print "This looks correct."
+j. Infinitely continues incrementing x
+k. Prints nothing.
+l. Prints 10
+m. Error. Deleting the first while would print 1
+n. Error. for (k = 0; k == 1; k++) will print nothing.
+o. Error. After swapping the braces and the parentheses, it pritns 7
+p. Error. After adding the semicolon, it prints from 0 to 99
+q. Prints from 0 to 99
+r. Infinitely prints 0
+s. Prints even number from 0 to 98
+t. Infinitely prints -1
+
+7. Loop Rewriting
+a.
+int i = 0;
+int sum = 0;
+while (i < 10) {
+    sum = sum + i * i;
+    i++;
+}
+
+b.
+int sum;
+int i = 0;
+while (i < 10) {
+    sum = 0;
+    int j = 0;
+    while (j <= i) {
+        sum = sum + j;
+        j++;
+    }
+    System.out.println(sum);
+    i++;
+}
+
+c.
+int i = 0;
+int sum = 0;
+while (i < 10) {
+    System.out.println(sum);
+    sum += i++;
+}
+
+8. Find the Error
+a. Condition has to be in parentheses. It never increments variable count so it never ends.
+
+b. It increments after a loop so it never ends. Also, it is just being substituted so it does not do addition.
+
+c. Apostrophe and double quotation is not corresponding. Also, variable sum must be declared outside for loop.
+
+d. Variable sum is not declared. input.nextInt() used as expression asks the user for input once again after the evaluation.

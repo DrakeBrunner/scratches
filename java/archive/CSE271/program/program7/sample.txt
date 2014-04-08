@@ -1,0 +1,35 @@
+N
+How many parameters does a copy constructor accept?
+1
+W
+Name one of Java's primitive data types:
+byte short int long float double boolean char
+T
+To compare two char values, use the equals() method.
+false
+M
+Which types are good for storing numbers with decimal points?
+double
+float
+
+String
+boolean
+int
+
+O
+List these animals from largest to smallest:
+elephant
+lion
+penguin
+mouse
+
+S
+What is "computer".substring(3, 5)?
+pu
+
+mpute
+put
+
+N
+What is the value of pi?
+3.141592653

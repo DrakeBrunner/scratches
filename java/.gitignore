@@ -1,0 +1,15 @@
+*.class
+*.~
+*.swp
+
+# Other repositories
+typebest
+verilog_town
+
+# For Eclipse
+.classpath
+.metadata
+.project
+.settings
+
+*.dat

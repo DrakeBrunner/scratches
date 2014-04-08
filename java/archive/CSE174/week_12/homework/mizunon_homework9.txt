@@ -1,0 +1,15 @@
+2. Explain the Error
+It is because what is sent to the method is not the address and it's the value
+itself. Thus, it swaps the value at a different address and not the address of
+a[0] and a[1].
+
+3. Tracing
+a[0] = -1
+a[1] = 1
+a[2] = 3
+a[3] = 5
+a[4] = 7
+a[6] = 9
+a[7] = 11
+a[8] = 13
+a[9] = 15

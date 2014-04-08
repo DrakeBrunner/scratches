@@ -1,0 +1,51 @@
+3. Playing Compiler
+a. May 13, 1998 fell on day number 
+b. 5
+c. Chech out this line 
+d. //hello there 97
+e. 145 is 1more example
+f. 151.5 is 1more example
+g. Incorrect. Can't find symbol
+h. Reverse IT
+i. No! Here is1more example
+j. Incorrect. No semicolon. 
+k. Not x is true
+l.
+m. Incorrect. No parentheses.
+n. Incorrect. Unclosed character literal
+
+8. Playing Compiler
+a. int
+b. double
+c. double
+d. boolean
+e. double
+f. double
+g. int
+h. int
+i. double
+j. boolean
+k. double
+
+9. DeMorgan's Law
+a. !a && b
+b. a || b
+c. a && b
+d. (!a || !b) && (a || b)
+
+10. What's the Output?
+There once was a girl named Elaine
+With a microchip lodged in her brain
+    Her friends were amazed
+    Bedazzled and dazed
+By the fact that Elaine could retain
+
+11. What's the Output?
+a. 4
+b. 1
+c. 4.666666666666667
+d. 4.0
+e. 1.1666666666666667
+f. 4.666666666666667
+g. 4.666666666666667
+h. 4.666666666666667

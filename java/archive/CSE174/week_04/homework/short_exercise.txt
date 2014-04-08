@@ -1,0 +1,23 @@
+2 Playing Compiler
+a. true
+b. false
+c. false
+d. Error, && cannot be applied to double, boolean
+e. true
+f. false
+g. Error, incomparable types: boolean and int
+h. false
+i. true
+j. Error, incomparable types: boolean and int
+k. true
+l. true
+m. true
+n. true
+o. Error, invalid casting
+p. Error, Operator < cannot be applied to boolean
+
+3 What's the Output?
+a. i) Hello ii) Hello
+b. i) Goodbye ii) (No Output)
+c. i) (No Output) ii) Goodbye
+d. i) (No Output) ii) Goodbye

@@ -1,0 +1,5 @@
+Panthers    4   Tigers      3
+Sky         2   Panthers    0
+Tigers      1   Sky         6
+Sky         2   Panthers    1
+Tigers      1   Sky         4

@@ -1,0 +1,46 @@
+4. What's the Output?
+More than 1 variable can't be initialized at the same time.
+int public = public2 = 8;
+should be
+int public = 8;
+int public2 = 8;
+
+Cannot decrement from double.
+public = --x;
+should be
+public = (int)--x;
+
+There is no period and semicolon.
+System.outprintln("That is the question")
+should be
+System.out.println("That is the question");
+
+I love this stuff 4ever
+I hate this stuff 4ever
+That is the question
+
+5. What's the Output?
+a. 5
+b. 6
+c. Can't substitute after substitution
+d. 1
+e. 10
+f. 12
+
+7. Playing Compiler
+a. legal
+b. illegal
+c. illegal
+d. illegal
+e. legal
+f. legal
+g. illegal
+h. legal
+i. legal
+j. legal
+k. legal
+
+12. Types and Expressions
+As it is mentioned in the hint, the w stays the same even after incremented.
+After incrementing x, the value w is returned, but w was not changed,
+therefore, it is the same as putting x into x.
