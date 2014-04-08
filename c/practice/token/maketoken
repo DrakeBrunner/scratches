@@ -1,0 +1,6 @@
+token_test: token_test.o token.o
+	$(CC) -o token_test token_test.o token.o
+token_test.o: token_test.c token.h keyword.h
+	$(CC) -c token_test.c
+token.o: token.c token.h
+	$(CC) -c token.c
