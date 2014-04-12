@@ -90,6 +90,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
             }
             catch (IOException e) {
                 e.printStackTrace();
+                System.exit(1);
             }
 
             // Call a method that uses TCP/IP to receive obstacles
@@ -194,10 +195,24 @@ public class SpaceGameClient implements SpaceGUIInterface {
                 System.out.println("Informing server of new torpedo");
 
             // Send code to let server know a torpedo is being fired.
-            // TODO
+            DataOutputStream dos = null;
+            try {
+                dos = new DataOutputStream(reliableSocket.getOutputStream());
+                dos.writeInt(Constants.FIRED_TORPEDO);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
 
             // Send Position and heading
-            // TODO
+            try {
+                dos.writeInt(sector.ownShip.getXPosition());
+                dos.writeInt(sector.ownShip.getYPosition());
+                dos.writeInt(sector.ownShip.getHeading());
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -282,9 +297,9 @@ public class SpaceGameClient implements SpaceGUIInterface {
             DataOutputStream dos =
                     new DataOutputStream(reliableSocket.getOutputStream());
             dos.writeInt(Constants.EXIT);
-            dos.writeInt(sector.ownShip.getXPosition());
-            dos.writeInt(sector.ownShip.getYPosition());
-            dos.writeInt(sector.ownShip.getHeading());
+            // dos.writeInt(sector.ownShip.getXPosition());
+            // dos.writeInt(sector.ownShip.getYPosition());
+            // dos.writeInt(sector.ownShip.getHeading());
             dos.flush();
         }
         catch (IOException e) {
@@ -361,17 +376,14 @@ public class SpaceGameClient implements SpaceGUIInterface {
                     dis.read(ip);
                     int port = dis.readInt();
                     int code = dis.readInt();
-                    int x = dis.readInt();
-                    int y = dis.readInt();
-                    int heading = dis.readInt();
 
                     InetSocketAddress id = new InetSocketAddress(
                             InetAddress.getByAddress(ip), port);
-                    AlienSpaceCraft ship =
-                            new AlienSpaceCraft(id, x, y, heading);
 
-                    if (code == Constants.EXIT)
-                        sector.removeSpaceCraft(ship);
+                    if (code == Constants.REMOVE_SHIP)
+                        sector.removeSpaceCraft(new SpaceCraft(id, 0, 0, 0));
+                    else if (code == Constants.REMOVE_TORPEDO)
+                        sector.removeTorpedo(new Torpedo(id, 0, 0, 0));
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -402,8 +414,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
                     byte[] ip = new byte[4];
                     dis.read(ip);
                     int port = dis.readInt();
-                    // Type is not needed
-                    dis.readInt();
+                    int type = dis.readInt();
                     int x = dis.readInt();
                     int y = dis.readInt();
                     int heading = dis.readInt();
@@ -412,10 +423,17 @@ public class SpaceGameClient implements SpaceGUIInterface {
                     InetSocketAddress id = new InetSocketAddress(
                             InetAddress.getByAddress(ip), port);
 
-                    // Create or update ship
-                    AlienSpaceCraft ship = new AlienSpaceCraft(id, x, y,
-                            heading);
-                    sector.updateOrAddSpaceCraft(ship);
+                    if (type == Constants.UPDATE_SHIP) {
+                        // Create or update ship
+                        AlienSpaceCraft ship =
+                                new AlienSpaceCraft(id, x, y, heading);
+                        sector.updateOrAddSpaceCraft(ship);
+                    }
+                    else if (type == Constants.UPDATE_TORPEDO) {
+                        Torpedo torpedo =
+                                new Torpedo(id, x, y, heading);
+                        sector.updateOrAddTorpedo(torpedo);
+                    }
                 }
                 catch (SocketTimeoutException e) {
                     // Don't do anything

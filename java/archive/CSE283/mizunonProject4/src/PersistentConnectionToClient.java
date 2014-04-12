@@ -66,14 +66,24 @@ public class PersistentConnectionToClient extends Thread {
         while (thisClientIsPlaying && spaceGameServer.playing) {
             try {
                 int code = dis.readInt();
-                int x = dis.readInt();
-                int y = dis.readInt();
-                int heading = dis.readInt();
 
                 // When client wants to exit
                 if (code == Constants.EXIT) {
-                    ship = new SpaceCraft(clientID, x, y, heading);
+                    ship = new SpaceCraft(clientID, 0, 0, 0);
                     break;
+                }
+                // If a torpedo is fired
+                else if (code == Constants.FIRED_TORPEDO) {
+                    int x = dis.readInt();
+                    int y = dis.readInt();
+                    int heading = dis.readInt();
+
+                    Torpedo torpedo = new Torpedo(clientID, x, y, heading);
+                    // Add to own sector
+                    spaceGameServer.sector.updateOrAddTorpedo(torpedo);
+                    // Send update to clients
+                    spaceGameServer.sendTorpedoUpdate(torpedo,
+                            spaceGameServer.torpUpdater.dgsock);
                 }
             }
             catch (IOException e) {
@@ -132,13 +142,10 @@ public class PersistentConnectionToClient extends Thread {
             // Port
             dos.writeInt(sc.ID.getPort());
             // Type
-            dos.writeInt(Constants.EXIT);
-            // X
-            dos.writeInt(sc.getXPosition());
-            // Y
-            dos.writeInt(sc.getYPosition());
-            // Heading
-            dos.writeInt(sc.getHeading());
+            if (sc instanceof Torpedo)
+                dos.writeInt(Constants.REMOVE_TORPEDO);
+            else
+                dos.writeInt(Constants.REMOVE_SHIP);
 
             dos.flush();
         }
