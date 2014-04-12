@@ -133,6 +133,13 @@ public class PersistentConnectionToClient extends Thread {
         }
     }
 
+    /**
+     * Sends a message to this client telling to remove the given space ship
+     * from it's sector.
+     * 
+     * @param sc
+     *            The space ship that is removed.
+     */
     protected void sendRemoveToClient(SpaceCraft sc) {
         try {
             DataOutputStream dos =

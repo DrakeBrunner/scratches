@@ -362,11 +362,16 @@ public class SpaceGameClient implements SpaceGUIInterface {
     /**
      * Class that is used to receive remove messages from server. Remove
      * messages are messages telling this client that some other client has left
-     * the game and that spaceship needs to be removed from the sector.
+     * the game and that spaceship needs to be removed from the sector. This
+     * class uses TCP.
      * 
      * @author Naoki
      */
     class Receiver extends Thread {
+        /**
+         * Listens for messages sent from the server. The message are such as
+         * removal of a ship or removal of a torpedo.
+         */
         @Override
         public void run() {
             while (playing) {
@@ -394,8 +399,8 @@ public class SpaceGameClient implements SpaceGUIInterface {
 
     /**
      * Class that is used to update sector according to messages sent by the
-     * server using UDP.
-     * TODO: improve doc
+     * server using UDP. Update messages are messages such as updating the
+     * location of ships and updating the location of ships.
      * 
      * @author Naoki
      */
