@@ -80,13 +80,15 @@ class BestEffortServer extends Thread {
                 int heading = dis.readInt();
 
                 processUpdate(id, type, x, y, heading);
+
+                // TODO: forward message
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        // TODO
+        // TODO: close server?
 
     } // end run
 

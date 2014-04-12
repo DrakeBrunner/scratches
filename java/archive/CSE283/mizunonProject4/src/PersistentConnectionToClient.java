@@ -56,6 +56,9 @@ public class PersistentConnectionToClient extends Thread {
             e.printStackTrace();
         }
 
+        // Send obstacles
+        sendObstacles();
+
         // loop till playing is set to false
         while (thisClientIsPlaying && spaceGameServer.playing) {
             // TODO
@@ -66,6 +69,36 @@ public class PersistentConnectionToClient extends Thread {
     } // end run
 
     // TODO
+
+    /**
+     * Sends all the obstacles to this client. The data is sent in the order of
+     * X coordinate, Y coordinate. A negative number is sent after the final
+     * obstacle.
+     */
+    private void sendObstacles() {
+        ArrayList<Obstacle> obstacles = spaceGameServer.sector.getObstacles();
+        DataOutputStream dos = null;
+
+        try {
+            // Send the coordinates of all the obstacles
+            for (int i = 0; i < obstacles.size(); i++) {
+                Obstacle obs = obstacles.get(i);
+                int x = obs.getXPosition();
+                int y = obs.getYPosition();
+                dos = new DataOutputStream(clientConnection.getOutputStream());
+                dos.writeInt(x);
+                dos.writeInt(y);
+            }
+
+            // Send a negative number to indicate the end
+            dos.writeInt(-1);
+
+            dos.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void sendRemoveToClient(SpaceCraft sc) {
         // TODO

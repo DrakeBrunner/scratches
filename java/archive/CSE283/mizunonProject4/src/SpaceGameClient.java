@@ -97,7 +97,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
 
             // Call a method that uses TCP/IP to receive obstacles
             // from the server.
-            // TODO
+            receiveObstacles();
 
             // Start thread to listen on the TCP Socket and receive remove
             // messages.
@@ -122,6 +122,30 @@ public class SpaceGameClient implements SpaceGUIInterface {
     } // end SpaceGame constructor
 
     // TODO
+    /**
+     * Receives all the obstacles from the server. Data is sent in the order of
+     * x coordinate, y coordinate. Negative number is sent at the end,
+     * indicating the end of all obstacles.
+     */
+    private void receiveObstacles() {
+        DataInputStream dis = null;
+        try {
+            dis = new DataInputStream(reliableSocket.getInputStream());
+            while (true) {
+                int x = dis.readInt();
+
+                // Negative number indicates all obstacles has been sent
+                if (x < 0)
+                    break;
+                int y = dis.readInt();
+
+                sector.addObstacle(x, y);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Causes sector.ownShip to turn and sends an update message for the heading
