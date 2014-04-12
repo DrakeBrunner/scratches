@@ -102,6 +102,8 @@ public class PersistentConnectionToClient extends Thread {
 
     protected void sendRemoveToClient(SpaceCraft sc) {
         // TODO
+        // TODO: use
+        // spaceGameServer.removeClientDatagramSocketAddresses(something);
 
     } // end sendRemoveToClient
 

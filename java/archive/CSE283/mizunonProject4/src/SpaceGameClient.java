@@ -18,12 +18,9 @@ import spaceWar.*;
  * @author bachmaer
  * 
  *         Driver class for a simple networked space game. Opponents try to
- *         destroy each
- *         other by ramming. Head on collisions destroy both ships. Ships move
- *         and turn
- *         through GUI mouse clicks. All friendly and alien ships are displayed
- *         on a 2D
- *         interface.
+ *         destroy each other by ramming. Head on collisions destroy both ships.
+ *         Ships move and turn through GUI mouse clicks. All friendly and alien
+ *         ships are displayed on a 2D interface.
  */
 public class SpaceGameClient implements SpaceGUIInterface {
     // Keeps track of the game state
@@ -101,13 +98,12 @@ public class SpaceGameClient implements SpaceGUIInterface {
 
             // Start thread to listen on the TCP Socket and receive remove
             // messages.
-            // TODO
+            new Receiver().start();
 
             // Infinite loop or separate thread to receive update
             // messages from the server and use the messages to
             // update the sector display
-            // TODO
-
+            new Updater().start();
         }
         catch (SocketException e) {
             System.err.println("Error creating game play datagram socket.");
@@ -121,7 +117,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
 
     } // end SpaceGame constructor
 
-    // TODO
+    // TODO done?
     /**
      * Receives all the obstacles from the server. Data is sent in the order of
      * x coordinate, y coordinate. Negative number is sent at the end,
@@ -282,12 +278,12 @@ public class SpaceGameClient implements SpaceGUIInterface {
         playing = false;
 
         // Send exit code to the server
-        // TODO
+        // TODO: use sender?
 
     } // end stop
 
     /**
-     * Helper method that sends a packet with the given request type.
+     * Helper method that sends a packet with the given request type using UDP.
      * 
      * @param type
      *            The type of request (e.g. JOIN, UPDATE_SHIP)
@@ -337,4 +333,69 @@ public class SpaceGameClient implements SpaceGUIInterface {
         new SpaceGameClient();
     }
 
+    /**
+     * Class that is used to receive messages from server.
+     * 
+     * @author Naoki
+     */
+    class Receiver extends Thread {
+        @Override
+        public void run() {
+            while (playing) {
+                try {
+                    dis = new DataInputStream(reliableSocket.getInputStream());
+                    // TODO: receive
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Class that is used to update sector according to messages sent by the
+     * server using UDP.
+     * TODO: improve doc
+     * 
+     * @author Naoki
+     */
+    class Updater extends Thread {
+        @Override
+        public void run() {
+            while (playing) {
+                try {
+                    DatagramPacket packet = new DatagramPacket(new byte[24], 24);
+                    gamePlaySocket.receive(packet);
+
+                    ByteArrayInputStream bais = new ByteArrayInputStream(
+                            packet.getData());
+                    DataInputStream dis = new DataInputStream(bais);
+
+                    byte[] ip = new byte[4];
+                    dis.read(ip);
+                    int port = dis.readInt();
+                    // Type is not needed
+                    dis.readInt();
+                    int x = dis.readInt();
+                    int y = dis.readInt();
+                    int heading = dis.readInt();
+
+                    // Create InetSocketAddress
+                    InetSocketAddress id = new InetSocketAddress(
+                            InetAddress.getByAddress(ip), port);
+
+                    // Create or update ship
+                    AlienSpaceCraft ship = new AlienSpaceCraft(id, x, y, heading);
+                    sector.updateOrAddSpaceCraft(ship);
+                }
+                catch (SocketTimeoutException e) {
+                    // Don't do anything
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 } // end SpaceGame class

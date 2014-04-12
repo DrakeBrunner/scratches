@@ -1,5 +1,7 @@
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -68,8 +70,10 @@ class BestEffortServer extends Thread {
                 // Read port
                 int port = dis.readInt();
                 // Create an InetSocketAddress used as an ID
-                InetAddress ipAddress = InetAddress.getByAddress(ip);
-                InetSocketAddress id = new InetSocketAddress(ipAddress, port);
+                //InetAddress ipAddress = InetAddress.getByAddress(ip);
+                //InetSocketAddress id = new InetSocketAddress(ipAddress, port);
+                // TODO: clean up
+                InetSocketAddress id = new InetSocketAddress(packet.getAddress(), port);
                 // Read type
                 int type = dis.readInt();
                 // Read X
@@ -81,7 +85,8 @@ class BestEffortServer extends Thread {
 
                 processUpdate(id, type, x, y, heading);
 
-                // TODO: forward message
+                // Forward packet
+                spaceGameServer.selectiveForward(packet, id, gamePlaySocket);
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -111,6 +116,10 @@ class BestEffortServer extends Thread {
         if (type == Constants.JOIN || type == Constants.UPDATE_SHIP) {
             // Temporary ship
             SpaceCraft ship = new SpaceCraft(id, x, y, heading);
+            
+            // Add client if joining
+            if (type == Constants.JOIN)
+                spaceGameServer.addClientDatagramSocketAddresses(id);
 
             // Update the sector
             spaceGameServer.sector.updateOrAddSpaceCraft(ship);
@@ -120,11 +129,9 @@ class BestEffortServer extends Thread {
                     spaceGameServer.sector.collisionCheck(ship);
 
             // Remove ships that collided
-            if (collided != null) {
-                for (SpaceCraft sc : collided) {
+            if (collided != null)
+                for (SpaceCraft sc : collided)
                     spaceGameServer.sendRemoves(sc);
-                }
-            }
         }
     }
 
