@@ -117,7 +117,6 @@ public class SpaceGameClient implements SpaceGUIInterface {
 
     } // end SpaceGame constructor
 
-    // TODO done?
     /**
      * Receives all the obstacles from the server. Data is sent in the order of
      * x coordinate, y coordinate. Negative number is sent at the end,
@@ -268,7 +267,8 @@ public class SpaceGameClient implements SpaceGUIInterface {
     } // end join
 
     /**
-     * Perform clean-up for application shut down
+     * Perform clean-up for application shut down. Sends the EXIT code and then
+     * the x, y coordinates and the heading.
      */
     public void stop() {
         if (DEBUG)
@@ -278,7 +278,18 @@ public class SpaceGameClient implements SpaceGUIInterface {
         playing = false;
 
         // Send exit code to the server
-        // TODO: use sender?
+        try {
+            DataOutputStream dos =
+                    new DataOutputStream(reliableSocket.getOutputStream());
+            dos.writeInt(Constants.EXIT);
+            dos.writeInt(sector.ownShip.getXPosition());
+            dos.writeInt(sector.ownShip.getYPosition());
+            dos.writeInt(sector.ownShip.getHeading());
+            dos.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     } // end stop
 
@@ -334,7 +345,9 @@ public class SpaceGameClient implements SpaceGUIInterface {
     }
 
     /**
-     * Class that is used to receive messages from server.
+     * Class that is used to receive remove messages from server. Remove
+     * messages are messages telling this client that some other client has left
+     * the game and that spaceship needs to be removed from the sector.
      * 
      * @author Naoki
      */
@@ -344,7 +357,21 @@ public class SpaceGameClient implements SpaceGUIInterface {
             while (playing) {
                 try {
                     dis = new DataInputStream(reliableSocket.getInputStream());
-                    // TODO: receive
+                    byte[] ip = new byte[4];
+                    dis.read(ip);
+                    int port = dis.readInt();
+                    int code = dis.readInt();
+                    int x = dis.readInt();
+                    int y = dis.readInt();
+                    int heading = dis.readInt();
+
+                    InetSocketAddress id = new InetSocketAddress(
+                            InetAddress.getByAddress(ip), port);
+                    AlienSpaceCraft ship =
+                            new AlienSpaceCraft(id, x, y, heading);
+
+                    if (code == Constants.EXIT)
+                        sector.removeSpaceCraft(ship);
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -386,7 +413,8 @@ public class SpaceGameClient implements SpaceGUIInterface {
                             InetAddress.getByAddress(ip), port);
 
                     // Create or update ship
-                    AlienSpaceCraft ship = new AlienSpaceCraft(id, x, y, heading);
+                    AlienSpaceCraft ship = new AlienSpaceCraft(id, x, y,
+                            heading);
                     sector.updateOrAddSpaceCraft(ship);
                 }
                 catch (SocketTimeoutException e) {

@@ -47,9 +47,9 @@ public class PersistentConnectionToClient extends Thread {
 
         // Receive port number of UDP connection
         int udpPort = 0;
+        DataInputStream dis = null;
         try {
-            DataInputStream dis =
-                    new DataInputStream(clientConnection.getInputStream());
+            dis = new DataInputStream(clientConnection.getInputStream());
             udpPort = dis.readInt();
         }
         catch (IOException e) {
@@ -59,16 +59,39 @@ public class PersistentConnectionToClient extends Thread {
         // Send obstacles
         sendObstacles();
 
+        SpaceCraft ship = null;
+        InetSocketAddress clientID = new InetSocketAddress(
+                clientConnection.getInetAddress(), udpPort);
         // loop till playing is set to false
         while (thisClientIsPlaying && spaceGameServer.playing) {
-            // TODO
+            try {
+                int code = dis.readInt();
+                int x = dis.readInt();
+                int y = dis.readInt();
+                int heading = dis.readInt();
+
+                // When client wants to exit
+                if (code == Constants.EXIT) {
+                    ship = new SpaceCraft(clientID, x, y, heading);
+                    break;
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        // TODO
+        // Remove from list
+        spaceGameServer.removeClientDatagramSocketAddresses(clientID);
+        spaceGameServer.removePersistentConnection(this);
+
+        // Tell all clients to remove that client
+        spaceGameServer.sendRemoves(ship);
+
+        // Remove from sector
+        spaceGameServer.sector.removeSpaceCraft(ship);
 
     } // end run
-
-    // TODO
 
     /**
      * Sends all the obstacles to this client. The data is sent in the order of
@@ -101,10 +124,27 @@ public class PersistentConnectionToClient extends Thread {
     }
 
     protected void sendRemoveToClient(SpaceCraft sc) {
-        // TODO
-        // TODO: use
-        // spaceGameServer.removeClientDatagramSocketAddresses(something);
+        try {
+            DataOutputStream dos =
+                    new DataOutputStream(clientConnection.getOutputStream());
+            // IP
+            dos.write(sc.ID.getAddress().getAddress());
+            // Port
+            dos.writeInt(sc.ID.getPort());
+            // Type
+            dos.writeInt(Constants.EXIT);
+            // X
+            dos.writeInt(sc.getXPosition());
+            // Y
+            dos.writeInt(sc.getYPosition());
+            // Heading
+            dos.writeInt(sc.getHeading());
 
+            dos.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     } // end sendRemoveToClient
 
 } // end PersistentConnectionToClient class
