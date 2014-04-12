@@ -58,10 +58,8 @@ public class PersistentConnectionToClient extends Thread {
 
         // loop till playing is set to false
         while (thisClientIsPlaying && spaceGameServer.playing) {
-
             // TODO
-
-        } // end while
+        }
 
         // TODO
 

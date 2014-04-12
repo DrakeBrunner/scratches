@@ -43,9 +43,8 @@ public class SpaceGameServer {
     private ArrayList<InetSocketAddress> clientDatagramSocketAddresses = new ArrayList<InetSocketAddress>();
 
     // Contains references to threads that maintain a persistent connection
-    // with each client. Data pertaining to the removal
-    // of torpedoes and ships are sent reliably to clients using this
-    // ArrayList.
+    // with each client. Data pertaining to the removal of torpedoes and ships
+    // are sent reliably to clients using this ArrayList.
     private ArrayList<PersistentConnectionToClient> playerTCPConnections = new ArrayList<PersistentConnectionToClient>();
 
     // Simple gui to display what the server is tracking
@@ -222,10 +221,9 @@ public class SpaceGameServer {
         // Go through all the players in the game
         for (int i = 0; i < playerTCPConnections.size(); i++) {
 
-            // Get the Socket and DataOutputStream for a particular
-            // player
-            PersistentConnectionToClient pesistConnect = playerTCPConnections
-                    .get(i);
+            // Get the Socket and DataOutputStream for a particular player
+            PersistentConnectionToClient pesistConnect =
+                    playerTCPConnections.get(i);
 
             // Send the remove information to a single client
             pesistConnect.sendRemoveToClient(sc);

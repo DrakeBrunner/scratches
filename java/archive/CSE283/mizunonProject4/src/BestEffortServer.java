@@ -20,8 +20,7 @@ import spaceWar.SpaceCraft;
  */
 class BestEffortServer extends Thread {
 
-    // Socket through which all client UDP messages
-    // are received
+    // Socket through which all client UDP messages are received
     protected DatagramSocket gamePlaySocket = null;
 
     // Reference to the server which holds the sector to be updated
@@ -68,6 +67,9 @@ class BestEffortServer extends Thread {
                 dis.read(ip);
                 // Read port
                 int port = dis.readInt();
+                // Create an InetSocketAddress used as an ID
+                InetAddress ipAddress = InetAddress.getByAddress(ip);
+                InetSocketAddress id = new InetSocketAddress(ipAddress, port);
                 // Read type
                 int type = dis.readInt();
                 // Read X
@@ -77,9 +79,7 @@ class BestEffortServer extends Thread {
                 // Read heading
                 int heading = dis.readInt();
 
-                // DEBUG
-                System.out.println(port + " " + type + " " + x + " " + y + " "
-                        + heading);
+                processUpdate(id, type, x, y, heading);
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -90,6 +90,40 @@ class BestEffortServer extends Thread {
 
     } // end run
 
-    // TODO
+    /**
+     * Processes the update for the received ship. Depending on the
+     * <code>type</code>, it updates the sector.
+     * 
+     * @param id
+     *            The identifier of the client.
+     * @param type
+     *            Type of request from the client.
+     * @param x
+     *            The X position of the client.
+     * @param y
+     *            The Y position of the client.
+     * @param heading
+     *            The heading of the client.
+     */
+    void processUpdate(InetSocketAddress id, int type, int x, int y, int heading) {
+        if (type == Constants.JOIN || type == Constants.UPDATE_SHIP) {
+            // Temporary ship
+            SpaceCraft ship = new SpaceCraft(id, x, y, heading);
+
+            // Update the sector
+            spaceGameServer.sector.updateOrAddSpaceCraft(ship);
+
+            // Check collision
+            ArrayList<SpaceCraft> collided =
+                    spaceGameServer.sector.collisionCheck(ship);
+
+            // Remove ships that collided
+            if (collided != null) {
+                for (SpaceCraft sc : collided) {
+                    spaceGameServer.sendRemoves(sc);
+                }
+            }
+        }
+    }
 
 } // end BestEffortServer class

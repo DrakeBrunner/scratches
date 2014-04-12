@@ -137,7 +137,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
             sector.ownShip.rightTurn();
 
             // Send update message to server with new heading.
-            // TODO
+            sendPacket(Constants.UPDATE_SHIP);
 
         }
 
@@ -158,7 +158,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
             sector.ownShip.leftTurn();
 
             // Send update message to other server with new heading.
-            // TODO
+            sendPacket(Constants.UPDATE_SHIP);
         }
 
     } // end turnLeft
@@ -200,7 +200,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
             sector.ownShip.moveForward();
 
             // Send a message with the updated position to server
-            // TODO
+            sendPacket(Constants.UPDATE_SHIP);
         }
 
     } // end moveFoward
@@ -221,7 +221,7 @@ public class SpaceGameClient implements SpaceGUIInterface {
             sector.ownShip.moveBackward();
 
             // Send a message with the updated position to server
-            // TODO
+            sendPacket(Constants.UPDATE_SHIP);
         }
 
     } // end moveFoward
@@ -241,43 +241,8 @@ public class SpaceGameClient implements SpaceGUIInterface {
             sector.createOwnSpaceCraft();
 
             // Send message to server let them know you have joined the game
-            // using the
-            // send object
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            dos = new DataOutputStream(baos);
-            try {
-                // Write IP address
-                dos.write(InetAddress.getLocalHost().getAddress());
-                // Write port
-                dos.writeInt(gamePlaySocket.getLocalPort());
-                // Write type (join)
-                dos.writeInt(Constants.JOIN);
-                // Write X position
-                int x = sector.ownShip.getXPosition();
-                dos.writeInt(x);
-                // Write Y position
-                int y = sector.ownShip.getXPosition();
-                dos.writeInt(y);
-                // Write heading
-                int h = sector.ownShip.getHeading();
-                dos.writeInt(h);
-
-                dos.flush();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // Send packet to server
-            try {
-                byte[] toSend = baos.toByteArray();
-                DatagramPacket p = new DatagramPacket(toSend, toSend.length,
-                        Constants.SERVER_IP, Constants.SERVER_PORT);
-                gamePlaySocket.send(p);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            // using the send object
+            sendPacket(Constants.JOIN);
         }
 
     } // end join
@@ -296,6 +261,50 @@ public class SpaceGameClient implements SpaceGUIInterface {
         // TODO
 
     } // end stop
+
+    /**
+     * Helper method that sends a packet with the given request type.
+     * 
+     * @param type
+     *            The type of request (e.g. JOIN, UPDATE_SHIP)
+     */
+    private void sendPacket(int type) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        dos = new DataOutputStream(baos);
+        try {
+            // Write IP address
+            dos.write(InetAddress.getLocalHost().getAddress());
+            // Write port
+            dos.writeInt(gamePlaySocket.getLocalPort());
+            // Write type
+            dos.writeInt(type);
+            // Write X position
+            int x = sector.ownShip.getXPosition();
+            dos.writeInt(x);
+            // Write Y position
+            int y = sector.ownShip.getYPosition();
+            dos.writeInt(y);
+            // Write heading
+            int h = sector.ownShip.getHeading();
+            dos.writeInt(h);
+
+            dos.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Send packet to server
+        try {
+            byte[] toSend = baos.toByteArray();
+            DatagramPacket p = new DatagramPacket(toSend, toSend.length,
+                    Constants.SERVER_IP, Constants.SERVER_PORT);
+            gamePlaySocket.send(p);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /*
      * Starts the space game. Driver for the application.
