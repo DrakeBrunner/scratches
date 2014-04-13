@@ -79,10 +79,7 @@ class BestEffortServer extends Thread {
                 // Read heading
                 int heading = dis.readInt();
 
-                processUpdate(id, type, x, y, heading);
-
-                // Forward packet
-                spaceGameServer.selectiveForward(packet, id, gamePlaySocket);
+                processUpdate(id, type, x, y, heading, packet);
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -106,7 +103,8 @@ class BestEffortServer extends Thread {
      * @param heading
      *            The heading of the client.
      */
-    void processUpdate(InetSocketAddress id, int type, int x, int y, int heading) {
+    void processUpdate(InetSocketAddress id, int type, int x, int y,
+            int heading, DatagramPacket packet) {
         if (type == Constants.JOIN || type == Constants.UPDATE_SHIP) {
             // Temporary ship
             SpaceCraft ship = new SpaceCraft(id, x, y, heading);
@@ -126,6 +124,9 @@ class BestEffortServer extends Thread {
             if (collided != null)
                 for (SpaceCraft sc : collided)
                     spaceGameServer.sendRemoves(sc);
+            // Forward packet
+            else
+                spaceGameServer.selectiveForward(packet, id, gamePlaySocket);
         }
     }
 
