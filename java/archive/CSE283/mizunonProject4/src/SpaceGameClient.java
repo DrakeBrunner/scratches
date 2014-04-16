@@ -394,7 +394,8 @@ public class SpaceGameClient implements SpaceGUIInterface {
                     e.printStackTrace();
 
                     // Close when it fails to communicate with server
-                    System.exit(0);
+                    System.err.println("Communication with the server faild. Exiting");
+                    System.exit(1);
                 }
             }
         }
