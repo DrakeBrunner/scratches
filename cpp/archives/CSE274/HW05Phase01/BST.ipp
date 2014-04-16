@@ -149,13 +149,28 @@ template <class Key, class Value>
 Key BST<Key,Value>::next(Key k) {
     BSTNode<Key, Value> * found = nextHelper(root, k);
 
-    // TODO
+    // If given key is max
+    if (max(root)->k <= k)
+        return k;
+
     return (found == NULL) ? k : found->k;
 }
 
 template <class Key, class Value>
 BSTNode<Key,Value>* BST<Key,Value>::nextHelper(BSTNode<Key,Value>* r, Key k) {
-    // TODO: what's "next"?
+    if (r == NULL)
+        return NULL;
+
+    if (k < r->k) {
+        if (r->left == NULL)
+            return r;
+        else if (max(r->left)->k > k)
+            return nextHelper(r->left, k);
+        else
+            return r;
+    }
+    else
+        return nextHelper(r->right, k);
 }
 
 
@@ -166,12 +181,29 @@ BSTNode<Key,Value>* BST<Key,Value>::nextHelper(BSTNode<Key,Value>* r, Key k) {
  ***/
 template <class Key, class Value>
 Key BST<Key,Value>::prev(Key k) {
-    //TODO
+    BSTNode<Key, Value> * found = prevHelper(root, k);
+
+    if (min(root)->k >= k)
+        return min(root)->k;
+
+    return (found == NULL) ? k : found->k;
 }
 
 template <class Key, class Value>
 BSTNode<Key,Value>* BST<Key,Value>::prevHelper(BSTNode<Key,Value>* r, Key k) {
-    //TODO
+    if (r == NULL)
+        return NULL;
+
+    if (r->k < k) {
+        if (r->right == NULL)
+            return min(r);
+        else if (min(r->right)->k < k)
+            return prevHelper(r->right, k);
+        else
+            return r;
+    }
+    else
+        return prevHelper(r->left, k);
 }
 
 
