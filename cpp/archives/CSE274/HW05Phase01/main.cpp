@@ -104,6 +104,16 @@ void test_printPostOrder(BST<Key, Value> & bst) {
     cout << endl;
 }
 
+template<class Key, class Value>
+void test_remove(BST<Key, Value> & bst) {
+    cout << "testing remove" << endl;
+    bst.remove(5);
+    bst.remove(7);
+    bst.remove(10);
+    bst.remove(2);
+    bst.remove(19);
+}
+
 /***
  * TODO - main():
  * - Create an instance of a BST that has keys ranging over ints,
@@ -126,5 +136,11 @@ int main() {
     test_printPreOrder(bst);
     test_printInOrder(bst);
     test_printPostOrder(bst);
+
+    // Remove nodes and print after
+    test_remove(bst);
+
+    test_printInOrder(bst);
+
 	return 0;
 }

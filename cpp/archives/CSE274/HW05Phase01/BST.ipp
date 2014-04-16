@@ -32,7 +32,7 @@ BST<Key,Value>::BST() {
 
 template <class Key, class Value>
 BST<Key,Value>::~BST() {
-    // TODO: remove root and all the other nodes
+    delete root;
 }
 
 
@@ -93,12 +93,42 @@ BSTNode<Key,Value>* BST<Key,Value>::insertHelper(BSTNode<Key,Value>* r, Key k, V
  ***/
 template <class Key, class Value>
 void BST<Key,Value>::remove(Key k) {
-    //TODO
+    root = removeHelper(root, k);
 }
 
 template <class Key, class Value>
 BSTNode<Key,Value>* BST<Key,Value>::removeHelper(BSTNode<Key,Value>* r, Key k) {
-    //TODO
+    if (r == NULL)
+        return NULL;
+
+    if (r->k == k) {
+        if (r->left != NULL) {
+            // Copy the value of the maximun in the left subtree
+            BSTNode<Key, Value> * max_node = max(r->left);
+            r->k = max_node->k;
+            r->v = max_node->v;
+
+            r->left = removeHelper(max_node, max_node->k);
+        }
+        // If there is no left node
+        else if (r->right != NULL)  {
+            // Copy the values of the right node
+            r->k = r->right->k;
+            r->v = r->right->v;
+            r->left = r->right->left;
+            r->right = r->right->right;
+        }
+        // If this is a leaf
+        else
+            r = NULL;
+
+    }
+    else if (r->k < k)
+        r->right = removeHelper(r->right, k);
+    else
+        r->left = removeHelper(r->left, k);
+
+    return r;
 }
 
 
