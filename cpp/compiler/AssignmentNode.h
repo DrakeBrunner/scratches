@@ -7,6 +7,7 @@ public:
     void set_left(Node* left);
     void set_right(Node* right);
     string to_string();
+    string compile();
 
 private:
     Node* left;

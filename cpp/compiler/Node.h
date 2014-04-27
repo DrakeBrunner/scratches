@@ -11,6 +11,7 @@ public:
 
     int get_node_type();
     virtual string to_string();
+    virtual string compile();
 
     static const int ROOT = 0;
     static const int NODE_ASSIGNMENT = 1;

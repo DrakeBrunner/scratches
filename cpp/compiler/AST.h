@@ -12,16 +12,17 @@
 #include "ValueNode.h"
 
 // #define DEBUG
+#define VAR_REG 16
 
 using namespace std;
 
 class AST : public Node {
 public:
-    AST();
     AST(string filename);
 
     void parse_xml(string filename);
     string to_string();
+    string compile();
 
 private:
     /**
@@ -31,5 +32,11 @@ private:
     AssignmentNode* do_assignment(tinyxml2::XMLElement* setq);
     OperatorNode* do_operator(tinyxml2::XMLElement* op);
 
+    int reg_number(string var_name, int start = 0, int end = 32);
+
     list<Node*> statements;
+    /**
+     * Store variables and their corresponding registers.
+     */
+    string* registers;
 };

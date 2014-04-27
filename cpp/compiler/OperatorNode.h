@@ -9,6 +9,7 @@ public:
     void set_right(Node* right);
     int get_operator_type();
     string to_string();
+    string compile(int reg_result);
 
     static const int OPERATOR_PLUS = 0;
     static const int OPERATOR_MINUS = 1;

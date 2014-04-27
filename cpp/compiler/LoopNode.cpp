@@ -31,3 +31,7 @@ string LoopNode::to_string() {
 
     return ret;
 }
+
+string LoopNode::compile() {
+    return "TODO!";
+}

@@ -1,9 +1,10 @@
 #include "AST.h"
 
-AST::AST() : Node(Node::ROOT) {
-}
-
 AST::AST(string filename) : Node(Node::ROOT) {
+    this->registers = new std::string[32];
+    for (int i = 0; i < 32; i++)
+        registers[i] = "";
+
     parse_xml(filename);
 }
 
@@ -16,7 +17,16 @@ void AST::parse_xml(string filename) {
     statements = process_node(code->FirstChild());
 }
 
-list<Node*> AST::process_node(tinyxml2::XMLNode* node) {
+string AST::compile() {
+    list<Node*>::iterator it;
+    string ret = "";
+    for (it = statements.begin(); it != statements.end(); it++) {
+        ret += (*it)->compile() + "\n";
+    }
+    return ret;
+}
+
+list<Node*> AST::process_node(tinyxml2::XMLNode* node) {    /* {{{ */
     list<Node*> statements;
 
     while (node != NULL && node->ToElement() != NULL) {
@@ -54,7 +64,8 @@ list<Node*> AST::process_node(tinyxml2::XMLNode* node) {
             // Condition is a variable
             else if (cond->FirstChildElement("v") != NULL) {
                 // Set it to variable
-                loop->set_condition(new ValueNode(cond->FirstChild()->Value()));
+                std::string var_name = cond->FirstChild()->Value();
+                loop->set_condition(new ValueNode(var_name, reg_number(var_name, VAR_REG)));
             }
             // Condition is a constant
             else if (cond->FirstChildElement("c") != NULL) {
@@ -81,6 +92,23 @@ list<Node*> AST::process_node(tinyxml2::XMLNode* node) {
     }
 
     return statements;
+}   /* }}} */
+
+int AST::reg_number(string var_name, int start, int end) {
+    for (int i = start; i < end; i++) {
+        if (registers[i] == var_name)
+            return i;
+    }
+
+    // If variable is used for the first time
+    for (int i = start; i < end; i++) {
+        if (registers[i] == "") {
+            registers[i] = var_name;
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 AssignmentNode* AST::do_assignment(tinyxml2::XMLElement* setq) { /* {{{ */
@@ -98,7 +126,7 @@ AssignmentNode* AST::do_assignment(tinyxml2::XMLElement* setq) { /* {{{ */
     // Set left operand
     // Get variable name
     std::string var_name(operand->FirstChild()->Value());
-    ret->set_left(new ValueNode(var_name));
+    ret->set_left(new ValueNode(var_name, reg_number(var_name, VAR_REG)));
 
     // Set right operand
     // Focus on right operand
@@ -112,7 +140,8 @@ AssignmentNode* AST::do_assignment(tinyxml2::XMLElement* setq) { /* {{{ */
     // Right operand is a variable
     else if (operand_type == "v") {
         // Set it to variable
-        ret->set_right(new ValueNode(operand->FirstChild()->Value()));
+        std::string var_name = operand->FirstChild()->Value();
+        ret->set_right(new ValueNode(var_name, reg_number(var_name, VAR_REG)));
     }
     // Right oprand is a constant
     else if (operand_type == "c") {
@@ -163,7 +192,8 @@ OperatorNode* AST::do_operator(tinyxml2::XMLElement* operand) { /* {{{ */
     // Left operand is a variable
     else if (operand_type == "v") {
         // Set it to variable
-        ret->set_left(new ValueNode(operand->FirstChild()->Value()));
+        std::string var_name = operand->FirstChild()->Value();
+        ret->set_left(new ValueNode(var_name, reg_number(var_name, VAR_REG)));
     }
     // Left oprand is a constant
     else if (operand_type == "c") {
@@ -186,7 +216,8 @@ OperatorNode* AST::do_operator(tinyxml2::XMLElement* operand) { /* {{{ */
     // Right operand is a variable
     else if (operand_type == "v") {
         // Set it to variable
-        ret->set_right(new ValueNode(operand->FirstChild()->Value()));
+        std::string var_name = operand->FirstChild()->Value();
+        ret->set_right(new ValueNode(var_name, reg_number(var_name, VAR_REG)));
     }
     // Right oprand is a constant
     else if (operand_type == "c") {

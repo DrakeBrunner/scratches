@@ -29,3 +29,7 @@ string Node::to_string() {
     }
     return ret;
 }
+
+string Node::compile() {
+    return "";
+}

@@ -31,12 +31,16 @@ This code is the translation of the following C code snippet.
         a = a + 2;
     } while (a < 20);
 
+### Variables
+* You can't have more than 8 variables
+
 ### Assignments
 * Left operand must be a variable
-* You can do things like `a = 2 + 2 * 3` but it will be evaluated from the
-beginning
 * Constants must all be integers
 
 ### Operators
 * +, -, ==, !=, >, >=, <, <= are the operators that you can use
-* `2 + 2 * 3` will be evaluated from the beginning
+* Operands must be either constant or variable
+* Combination of constant and variable is valid (`a + 2`)
+* Variables must come first (`a < 20` instead of `20 > a`)
+* You can't subtract variables. Only constants
