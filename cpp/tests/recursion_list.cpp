@@ -2,7 +2,7 @@
 #include <list>
 using namespace std;
 
-void recursive_func(list<int>* l) {
+void recursive_func(list<int>& l) {
     int in;
     cin >> in;
 
@@ -10,12 +10,12 @@ void recursive_func(list<int>* l) {
         return;
 
     // Crash
-    l->push_back(in);
+    l.push_back(in);
     recursive_func(l);
 }
 
 int main() {
-    list<int>* l;
+    list<int> l;
 
     recursive_func(l);
 
