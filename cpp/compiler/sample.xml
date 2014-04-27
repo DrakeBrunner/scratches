@@ -1,0 +1,33 @@
+<!-- This is a sample source code -->
+<?xml version="1.0" ?>
+<code>
+    <setq>
+        <v>a</v>
+        <o>+</o>
+            <c>3</c>
+            <c>5</c>
+    </setq>
+
+    <loop type="do-while">
+        <cond>
+            <o>&lt;</o>
+                <v>a</v>
+                <c>20</c>
+        </cond>
+
+        <body>
+            <setq>
+                <v>a</v>
+                <o>+</o>
+                    <v>a</v>
+                    <c>2</c>
+            </setq>
+            <setq>
+                <v>b</v>
+                <o>-</o>
+                    <v>a</v>
+                    <c>3</c>
+            </setq>
+        </body>
+    </loop>
+</code>
