@@ -44,3 +44,7 @@ This code is the translation of the following C code snippet.
 * Combination of constant and variable is valid (`a + 2`)
 * Variables must come first (`a < 20` instead of `20 > a`)
 * You can't subtract variables. Only constants
+
+### Loops
+* do-while loops only
+* Loop conditions must be either operators or variables (no constants)

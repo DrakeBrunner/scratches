@@ -39,4 +39,5 @@ private:
      * Store variables and their corresponding registers.
      */
     string* registers;
+
 };

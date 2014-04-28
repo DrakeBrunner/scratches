@@ -1,5 +1,7 @@
 #include "Node.h"
 
+#pragma once
+
 class OperatorNode : public Node {
 public:
     OperatorNode();
@@ -10,6 +12,7 @@ public:
     int get_operator_type();
     string to_string();
     string compile(int reg_result);
+    string get_branch(int label_number, bool negate = false);
 
     static const int OPERATOR_PLUS = 0;
     static const int OPERATOR_MINUS = 1;

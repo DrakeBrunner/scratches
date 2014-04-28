@@ -114,3 +114,62 @@ string OperatorNode::compile(int reg_result) {
 
     return ret;
 }
+
+string OperatorNode::get_branch(int label_number, bool negate) {
+    string ret;
+
+    int tmp_result = 8;
+    int left_operand = tmp_result + 1;
+    int right_operand = tmp_result + 2;
+    // Get left operand
+    if (left->get_node_type() == NODE_OPERATOR)
+        ret += compile(left_operand);
+
+    // Get right operand
+    if (right->get_node_type() == NODE_OPERATOR)
+        ret += compile(right_operand);
+
+    if (operator_type == OPERATOR_EQUAL)
+        ret += negate ? "bne" : "beq";
+    else if (operator_type == OPERATOR_INEQUAL)
+        ret += negate ? "beq" : "bne";
+    else if (operator_type == OPERATOR_GT)
+        ret += negate ? "ble" : "bgt";
+    else if (operator_type == OPERATOR_GTE)
+        ret += negate ? "blt" : "bge";
+    else if (operator_type == OPERATOR_LT)
+        ret += negate ? "bge" : "blt";
+    else if (operator_type == OPERATOR_LTE)
+        ret += negate ? "bgt" : "ble";
+
+    ret += " ";
+
+    // Left operand
+    // If operator, use the register previously calculated
+    if (left->get_node_type() == NODE_OPERATOR)
+        ret += "$" + std::to_string(left_operand) + ", ";
+    // Variable (no constant)
+    else
+        ret += "$" + std::to_string(((ValueNode*)left)->get_reg_number()) + ", ";
+
+
+    // Right operand
+    // If operator, use the register previously calculated
+    if (left->get_node_type() == NODE_OPERATOR)
+        ret += "$" + std::to_string(right_operand) + ", ";
+    // Value
+    else {
+        ValueNode* val = (ValueNode*)right;
+        // If it's a variable
+        if (val->is_var())
+            ret += "$" + std::to_string(val->get_reg_number()) + ", ";
+        // Constant
+        else
+            ret += std::to_string(val->get_value()) + ", ";
+    }
+
+    // Add where to jump
+    ret += ".LABEL" + std::to_string(label_number);
+
+    return ret + "\n";
+}

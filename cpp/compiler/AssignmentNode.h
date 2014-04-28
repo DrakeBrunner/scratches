@@ -1,5 +1,7 @@
 #include "Node.h"
 
+#pragma once
+
 class AssignmentNode : public Node {
 public:
     AssignmentNode();
