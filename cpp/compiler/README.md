@@ -5,7 +5,6 @@
 The language is defined to be similar to LISP. I defined so in order for the
 parsing to be less tedious.
 
-    
     <code>
         <loop type="do-while">
             <cond>
@@ -35,6 +34,7 @@ This code is the translation of the following C code snippet.
 * You can't have more than 8 variables
 
 ### Assignments
+* Use `<setq>` tag for assignments
 * Left operand must be a variable
 * Constants must all be integers
 
@@ -48,3 +48,32 @@ This code is the translation of the following C code snippet.
 ### Loops
 * do-while loops only
 * Loop conditions must be either operators or variables (no constants)
+
+### Conditionals
+The following code illustrates the if-else statement.
+
+    <if>
+        <cond>
+            <o>==</o>
+                <v>a</v>
+                <c>2</c>
+        </cond>
+
+        <!-- true -->
+        <body>
+            <setq>
+                <v>a</v>
+                <c>1</c>
+            </setq>
+        </body>
+        <!-- false -->
+        <body>
+            <setq>
+                <v>a</v>
+                <c>25</c>
+            </setq>
+        </body>
+    </if>
+
+The first `<body>` is executed when the condition is true and the second is
+executed when the condition is false.
