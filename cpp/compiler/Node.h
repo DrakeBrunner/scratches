@@ -18,6 +18,7 @@ public:
     static const int NODE_LOOP = 2;
     static const int NODE_VALUE = 3;
     static const int NODE_OPERATOR = 4;
+    static const int NODE_CONDITIONAL = 5;
 
 protected:
     int node_type;

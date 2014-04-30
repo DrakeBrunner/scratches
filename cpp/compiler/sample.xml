@@ -10,6 +10,30 @@
                 <c>5</c>
     </setq>
 
+    <if>
+        <cond>
+            <o>==</o>
+                <v>a</v>
+                <c>2</c>
+        </cond>
+
+        <!-- true -->
+        <body>
+            <setq>
+                <v>a</v>
+                <c>1</c>
+            </setq>
+        </body>
+        <!-- false -->
+        <body>
+            <setq>
+                <v>a</v>
+                <c>25</c>
+            </setq>
+        </body>
+    </if>
+
+
     <loop type="do-while">
         <cond>
             <o>&lt;</o>

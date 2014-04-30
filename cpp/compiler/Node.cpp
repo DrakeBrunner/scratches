@@ -26,6 +26,9 @@ string Node::to_string() {
         case NODE_OPERATOR:
             ret = "Operator";
             break;
+        case NODE_CONDITIONAL:
+            ret = "Conditional";
+            break;
     }
     return ret;
 }

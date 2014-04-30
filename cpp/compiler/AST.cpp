@@ -40,6 +40,13 @@ list<Node*> AST::process_node(tinyxml2::XMLNode* node) {    /* {{{ */
             std::cout << an->to_string() << std::endl;
 #endif
         }
+        else if (node_type == "if") {
+            ConditionalNode* cond = do_conditional(node->ToElement());
+            statements.push_back(cond);
+#ifdef DEBUG
+            std::cout << cond->to_string() << std::endl;
+#endif
+        }
         else if (node_type == "loop") {
             LoopNode* loop;
             if (node->ToElement()->Attribute("type", "for"))
@@ -228,6 +235,52 @@ OperatorNode* AST::do_operator(tinyxml2::XMLElement* operand) { /* {{{ */
         sscanf(val.c_str(), "%d", &i);
         ret->set_right(new ValueNode(i));
     }
+
+    return ret;
+}   /* }}} */
+
+ConditionalNode* AST::do_conditional(tinyxml2::XMLElement* conditional) {   /* {{{ */
+    using namespace tinyxml2;
+
+    ConditionalNode* ret = new ConditionalNode();
+
+    XMLElement* cond = conditional->FirstChildElement("cond");
+    if (cond == NULL || std::string(cond->Value()) != "cond") {
+        std::cerr << "Condition has to come first in a conditional" << std::endl;
+        exit(1);
+    }
+
+    // Add condition
+    // Condition is an operation (e.g. +, -, <)
+    if (cond->FirstChildElement("o") != NULL) {
+        ret->set_condition(do_operator(cond->FirstChildElement("o")));
+    }
+    // Condition is a variable
+    else if (cond->FirstChildElement("v") != NULL) {
+        // Set it to variable
+        std::string var_name = cond->FirstChild()->Value();
+        ret->set_condition(new ValueNode(var_name, reg_number(var_name, VAR_REG)));
+    }
+    // Condition is a constant
+    else if (cond->FirstChildElement("c") != NULL) {
+        // Set it to variable (has to be int)
+        std::string val(cond->FirstChild()->Value());
+        int i;
+        // Parse int
+        sscanf(val.c_str(), "%d", &i);
+        ret->set_condition(new ValueNode(i));
+    }
+    else {
+        std::cerr << "Invalid condition in conditional" << std::endl;
+        exit(1);
+    }
+
+    // Add first body (true)
+    cond = cond->NextSiblingElement("body");
+    ret->set_body_true(process_node(cond->FirstChildElement()));
+    // Add second body (false)
+    cond = cond->NextSiblingElement("body");
+    ret->set_body_false(process_node(cond->FirstChildElement()));
 
     return ret;
 }   /* }}} */

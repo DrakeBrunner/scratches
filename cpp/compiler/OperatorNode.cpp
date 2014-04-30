@@ -115,7 +115,7 @@ string OperatorNode::compile(int reg_result) {
     return ret;
 }
 
-string OperatorNode::get_branch(int label_number, bool negate) {
+string OperatorNode::get_branch(string label_name, int label_number, bool negate) {
     string ret;
 
     int tmp_result = 8;
@@ -169,7 +169,7 @@ string OperatorNode::get_branch(int label_number, bool negate) {
     }
 
     // Add where to jump
-    ret += ".LABEL" + std::to_string(label_number);
+    ret += label_name + std::to_string(label_number);
 
     return ret + "\n";
 }

@@ -12,7 +12,7 @@ public:
     int get_operator_type();
     string to_string();
     string compile(int reg_result);
-    string get_branch(int label_number, bool negate = false);
+    string get_branch(string label_name, int label_number, bool negate = false);
 
     static const int OPERATOR_PLUS = 0;
     static const int OPERATOR_MINUS = 1;

@@ -10,6 +10,7 @@
 #include "LoopNode.h"
 #include "OperatorNode.h"
 #include "ValueNode.h"
+#include "ConditionalNode.h"
 
 // #define DEBUG
 #define VAR_REG 16
@@ -31,6 +32,7 @@ private:
     list<Node*> process_node(tinyxml2::XMLNode* node);
     AssignmentNode* do_assignment(tinyxml2::XMLElement* setq);
     OperatorNode* do_operator(tinyxml2::XMLElement* op);
+    ConditionalNode* do_conditional(tinyxml2::XMLElement* conditional);
 
     int reg_number(string var_name, int start = 0, int end = 32);
 
