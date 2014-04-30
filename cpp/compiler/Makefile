@@ -20,16 +20,16 @@ AST.o: Node.h AssignmentNode.h LoopNode.h OperatorNode.h ConditionalNode.h AST.h
 Node.o: Node.h Node.cpp
 	$(CXX) $(CXXFLAGS) -c Node.cpp
 
-AssignmentNode.o: Node.o AssignmentNode.h AssignmentNode.cpp
+AssignmentNode.o: Node.h AssignmentNode.h AssignmentNode.cpp
 	$(CXX) $(CXXFLAGS) -c AssignmentNode.cpp
 
-ValueNode.o: Node.o ValueNode.h ValueNode.cpp
+ValueNode.o: Node.h ValueNode.h ValueNode.cpp
 	$(CXX) $(CXXFLAGS) -c ValueNode.cpp
 
-LoopNode.o: Node.o LoopNode.h LoopNode.cpp
+LoopNode.o: Node.h ValueNode.h OperatorNode.h LoopNode.h LoopNode.cpp
 	$(CXX) $(CXXFLAGS) -c LoopNode.cpp
 
-OperatorNode.o: Node.o OperatorNode.h OperatorNode.cpp
+OperatorNode.o: Node.h OperatorNode.h OperatorNode.cpp
 	$(CXX) $(CXXFLAGS) -c OperatorNode.cpp
 
 ConditionalNode.o: Node.h ValueNode.h OperatorNode.h ConditionalNode.h ConditionalNode.cpp

@@ -26,6 +26,7 @@ string AssignmentNode::to_string() {
     else
         ret += "NULL";
 
+    ret += "\n";
     return ret;
 }
 
