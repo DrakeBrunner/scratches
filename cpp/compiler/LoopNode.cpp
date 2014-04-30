@@ -47,7 +47,7 @@ string LoopNode::compile() {
 string LoopNode::compile_do_while() {
     int current_label = label_number;
     // Create label
-    string ret = ".LABEL" + std::to_string(current_label) + ":\n";
+    string ret = ".LOOP" + std::to_string(current_label) + ":\n";
 
     list<Node*>::iterator it;
     for (it = body.begin(); it != body.end(); it++) {
@@ -58,12 +58,12 @@ string LoopNode::compile_do_while() {
     // Operator
     if (condition->get_node_type() == NODE_OPERATOR) {
         OperatorNode* op = (OperatorNode*)condition;
-        ret += op->get_branch(label_number);
+        ret += op->get_branch(".LOOP", label_number);
     }
     // Condition is a variable
     else if (condition->get_node_type() == NODE_VALUE) {
         ret += "bnez $" + std::to_string(((ValueNode*)condition)->get_reg_number());
-        ret += ", .LABEL" + std::to_string(current_label) + "\n";
+        ret += ", .LOOP" + std::to_string(current_label) + "\n";
     }
 
     label_number++;
@@ -71,7 +71,7 @@ string LoopNode::compile_do_while() {
 }
 
 string LoopNode::compile_while() {
-    string ret = ".LABEL" + std::to_string(label_number++);
+    string ret = ".LOOP" + std::to_string(label_number++);
 
     // TODO
 
