@@ -13,57 +13,84 @@ else {
     chomp($input = <STDIN>);
 }
 
-open FILE, $input or die "Could not open file: $!";
+open my $input_fh, $input or die "Could not open file: $!";
 
 # Store input file into 2-dimensional array
 my @maze;
-my ($i, $j);
-$i = 0;
+my $i = 0;
+# Start and goal coordinates
 my ($start_ref, $goal_ref);
-while (<FILE>) {
+
+# Check row-by-row
+while (<$input_fh>) {
     chomp(my $line = $_);
 
-    $start_ref = [$i, index($line, "S")] if /S/;
+    # Assume there is only one S and G in maze
+    # [row, col, dist] in array
+    $start_ref = [$i, index($line, "S"), 0] if /S/;
     $goal_ref = [$i, index($line, "G")] if /G/;
 
     $maze[$i++] = [split //, $line];
 }
 
 print "Initial check\n";
-&check(\@maze);
+check(\@maze);
 
-# Add number to the array until it reaches goal
-my $distance = 1;
-while (not($i == $$goal_ref[0] && $j == $$goal_ref[1])) {
-    ($i, $j) = &move(\@maze, $i, $j, \$distance);
+# Do a BFS
+my @q;
+my @dist;
+push @q, $start_ref;
+
+while (scalar @q != 0) {
+    my @cur = @{shift @q};
+    my $first = shift @cur;
+    my $second = shift @cur;
+    my $distance = shift @cur;
+
+    unless (defined $dist[$first][$second]
+        or $maze[$first][$second] eq "*") {
+        # Push adjacent grids to queue
+        push @q, [$first - 1, $second, $distance + 1] if $first - 1 >= 0;
+        push @q, [$first + 1, $second, $distance + 1] if $first + 1 < @maze;
+        push @q, [$first, $second - 1, $distance + 1] if $second - 1 >= 0;
+        push @q, [$first, $second + 1, $distance + 1] if $second + 1 < @{$maze[0]};
+
+        $dist[$first][$second] = $distance;
+    }
+
+    if ($first == $$goal_ref[0] and $second == $$goal_ref[1]) {
+        push @$goal_ref, $distance + 1;
+        last;
+    }
 }
 
-# Subroutines
-# Adds number to the array
-sub move {
-    my $maze_ref = shift;
-    my ($i, $j, $distance) = @_;
+# Mark the path
+my $f = $$goal_ref[0];
+my $s = $$goal_ref[1];
+my $d = $$goal_ref[2];
 
-    # Change it to the distance from start if adjacent is space
-    $$maze_ref[$i+1][$j] = $$distance if $$maze_ref[$i+1][$j] eq " ";
-    $$maze_ref[$i-1][$j] = $$distance if $$maze_ref[$i-1][$j] eq " ";
-    $$maze_ref[$i][$j+1] = $$distance if $$maze_ref[$i][$j+1] eq " ";
-    $$maze_ref[$i][$j-1] = $$distance if $$maze_ref[$i][$j-1] eq " ";
+until ($d == 1) {
+    if (defined $dist[$f - 1][$s] and $dist[$f - 1][$s] == $d - 1) {
+        $maze[$f - 1][$s] = '$';
+        $f--;
+    }
+    elsif (defined $dist[$f + 1][$s] and $dist[$f + 1][$s] == $d - 1) {
+        $maze[$f + 1][$s] = '$';
+        $f++;
+    }
+    elsif (defined $dist[$f][$s - 1] and $dist[$f][$s - 1] == $d - 1) {
+        $maze[$f][$s - 1] = '$';
+        $s--;
+    }
+    elsif (defined $dist[$f][$s + 1] and $dist[$f][$s + 1] == $d - 1) {
+        $maze[$f][$s + 1] = '$';
+        $s++;
+    }
 
-    # If "this" distance is shorter than the one already there, change it
-    $$maze_ref[$i+1][$j] = $$distance if $$maze_ref[$i+1][$j] =~ /\d+/
-        and $$distance < $$maze_ref[$i+1][$j];
-    $$maze_ref[$i+1][$j] = $$distance if $$maze_ref[$i-1][$j] =~ /\d+/
-        and $$distance < $$maze_ref[$i-1][$j];
-    $$maze_ref[$i+1][$j] = $$distance if $$maze_ref[$i][$j+1] =~ /\d+/
-        and $$distance < $$maze_ref[$i][$j+1];
-    $$maze_ref[$i+1][$j] = $$distance if $$maze_ref[$i][$j-1] =~ /\d+/
-        and $$distance < $$maze_ref[$i][$j-1];
-
-    $$distance++;
-    return ($i, $j);
-
+    $d--;
 }
+
+check(\@maze);
 
 # Prints out the whole array
 sub check {
