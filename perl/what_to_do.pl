@@ -20,6 +20,7 @@ while (<$input_fh>) {
 # Make weight of entries without weight the same as max
 my $max = 0;
 grep { $max = $_ if defined $_ and $_ > $max } values %list;
+$max = 1 if $max == 0;
 grep { $list{$_} = $max unless defined $list{$_} } keys %list;
 
 my $choice = choose_weighted([keys %list], [values %list]);
