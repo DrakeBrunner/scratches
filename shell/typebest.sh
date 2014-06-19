@@ -25,18 +25,18 @@ create_jar() {
     # Copy derby libraries to bin
     cp -r $TYPEBEST_LIB/* .
     CLASS_DIR=`find . -name 'MainWindow.class' | xargs dirname`
-    mkdir $TYPEBEST_DIR/bin/TypeBest
-    jar cvfm TypeBest/TypeBest.jar META-INF/MANIFEST.MF $CLASS_DIR/*.class derby*.jar org/
+    mkdir $TYPEBEST_DIR/bin/Typebest
+    jar cvfm Typebest/Typebest.jar META-INF/MANIFEST.MF $CLASS_DIR/*.class derby*.jar org/
 }
 
 create_tar() {
 
-    cp -r $TYPEBEST_DIR/dic $TYPEBEST_DIR/bin/TypeBest
-    cp $TYPEBEST_DIR/LICENSE $TYPEBEST_DIR/bin/TypeBest
-    cp $TYPEBEST_DIR/README.md $TYPEBEST_DIR/bin/TypeBest
+    cp -r $TYPEBEST_DIR/dic $TYPEBEST_DIR/bin/Typebest
+    cp $TYPEBEST_DIR/LICENSE $TYPEBEST_DIR/bin/Typebest
+    cp $TYPEBEST_DIR/README.md $TYPEBEST_DIR/bin/Typebest
 
     # Create a tarball
-    tar czvf TypeBest.tar.gz TypeBest
+    tar czvf Typebest.tar.gz Typebest
 }
 
 clean() {
@@ -67,6 +67,6 @@ compile
 create_jar
 create_tar
 
-mv TypeBest.tar.gz $DEST_DIR
+mv Typebest.tar.gz $DEST_DIR
 
 clean
