@@ -2,7 +2,7 @@
 
 echo "Cron job running at" `date`
 
-TYPEBEST_DIR=~/src/java/typebest
+TYPEBEST_DIR=~/src/typebest
 SOURCE=`find $TYPEBEST_DIR -name 'MainWindow.java'`
 TYPEBEST_LIB=~/lib/typebest
 DEST_DIR=/home/ftp/typebest/
