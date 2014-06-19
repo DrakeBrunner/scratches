@@ -13,7 +13,7 @@ compile() {
     if [ ! -d $TYPEBEST_DIR/bin ];then
         mkdir $TYPEBEST_DIR/bin
     fi
-    javac -cp $TYPEBEST_DIR/src:$TYPEBEST_LIB -d $TYPEBEST_DIR/bin $SOURCE
+    javac -cp $TYPEBEST_DIR/src:$TYPEBEST_LIB/* -d $TYPEBEST_DIR/bin $SOURCE
 }
 
 create_jar() {
