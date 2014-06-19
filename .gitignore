@@ -26,3 +26,6 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+
+# Don't ignore bin dir in Perl
+!perl/bin
