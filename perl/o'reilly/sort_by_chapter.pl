@@ -47,22 +47,22 @@ sub move_to_dir {
 
     # Get chapter number from file name
     $file_name =~ m{
-        ^
-        (ex|chap) .*?
-
-        (?<chap_num>
-            \d +
+        (?:     # Don't capture
+        ex|chap
         )
+        .*?     # ...any character until
+        (\d+)   # Capture the chapter number
     }ixms;
 
     # Don't do anything if the filename is invalid
-    if (! defined $+{"chap_num"}) {
+    my $chapter_number = $1;
+    if (! defined $chapter_number) {
         warn "Couldn't find chapter name from filename $file_name";
         return;
     }
 
     # Construct directory name that the file is moved to
-    my $chapter_dir_name = sprintf "chapter%02d", $+{"chap_num"};
+    my $chapter_dir_name = sprintf "chapter%02d", $chapter_number;
 
     # Create directory if it doesn't exist
     my $dest_dir = File::Spec->catdir($base_dir, $chapter_dir_name);
