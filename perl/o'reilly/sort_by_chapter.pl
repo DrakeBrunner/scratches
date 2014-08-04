@@ -1,57 +1,85 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
 
+use File::Spec;
 
-# This program will sort files that are named after chapter numbers for example,
-# ex2-1.pl
-# Chapter 2_1.pl
+# Simple utility script for managing exercise problems on "Learning Perl" and
+# "Beyond the basics of Learning Perl" from O'Reilly.
 #
-# It can be recognized if it has "chap" or "ex" in the beginning of a file
-# with the number of the chapter followed.
+# Given a directory name, this script looks for .pl files in that directory
+# and moves them into directories named like "chapterXX" by looking at the
+# file names. For example, "chapter2-4.pl" (practice problem 4 in chapter 2)
+# will be moved to "chapter02". Directories are created if they don't exist.
 #
-# The script will ask for the directory to process
-# and it will make directories named, for example, "chapter02"
-# For now, plese edit the command by yourself
-# if you want to have different directory name.
+# Nested directories are NOT supported. The script only looks at the given
+# directory and no further (deeper).
 #
-# Made by Naoki Mizuno (nm2372@gmail.com)
-# Dec. 10, 2012
+# Author: Naoki Mizuno (nigorojr@gmail.com)
+# Dec. 10, 2012 (Updated Aug 4, 2014)
 
+our $base_dir;
+if (@ARGV) {
+    $base_dir = shift;
+}
+else {
+    print "base_dir to process?\n";
+    chomp($base_dir = <STDIN>);
+}
 
-print "dir to process?\n";
-chomp(my $dir = <STDIN>);
-$dir = "." if $dir =~ /\s*/;
-
-opendir DH, $dir or die "Could not open directory $dir: $!";
-
-for my $things_inside (sort readdir DH) {
-    next if $things_inside eq "." or $things_inside eq "..";
-    &move_to_dir($things_inside);
+# Only want file names && too lazy to use File::Find
+opendir my $dir_handle, File::Spec->rel2abs($base_dir) or die $!;
+for my $file_name (sort readdir $dir_handle) {
+    next if $file_name eq "." or $file_name eq "..";
+    move_to_dir($file_name);
 }
 
 sub move_to_dir {
-    my $processing_file = shift;
+    my $file_name = shift;
 
-    # Recognize chapter number and appropriate file to process
-    $processing_file =~ m/^(?:ex.*?|chap.*?)(?:\s*)(\d+)/i;
+    # Check if that file really exists
+    my $src_file_path = File::Spec->catfile($base_dir, $file_name);
+    if (! -f $src_file_path) {
+        warn "Couldn't find $src_file_path";
+        return;
+    }
+
+    # Get chapter number from file name
+    $file_name =~ m{
+        ^
+        (ex|chap) .*?
+
+        (?<chap_num>
+            \d +
+        )
+    }ixms;
 
     # Don't do anything if the filename is invalid
-    return unless defined $1;
-    my $chapter_number = $1;
+    if (! defined $+{"chap_num"}) {
+        warn "Couldn't find chapter name from filename $file_name";
+        return;
+    }
 
-    # Format dir name to be something like chapter02
-    $chapter_number = sprintf "%02d", $chapter_number;
+    # Construct directory name that the file is moved to
+    my $chapter_dir_name = sprintf "chapter%02d", $+{"chap_num"};
 
     # Create directory if it doesn't exist
-    mkdir "$dir/chapter$chapter_number"
-        or die "Failed to create directory: $!" unless -d "$dir/chapter$chapter_number";
+    my $dest_dir = File::Spec->catdir($base_dir, $chapter_dir_name);
+    if (! -d $dest_dir) {
+        mkdir $dest_dir or die "Failed to create directory: $!";
+    }
 
-    # Move the file to the appropriate directory
-    if (-f "$dir/$processing_file") {
-        rename "$dir/$processing_file", "$dir/chapter$chapter_number/$processing_file"
-            or die "Could not move $processing_file: $!" ;
-        print "Moved $processing_file to \"chapter$chapter_number\"\n"
+    # Construct paths of source and destination directories
+    my $src_path = File::Spec->catfile($base_dir, $file_name);
+    my $dest_path = File::Spec->catfile($dest_dir, $file_name);
+
+    # Move file
+    if (rename $src_path, $dest_path) {
+        print "Moved $file_name to '$chapter_dir_name'\n"
+    }
+    # Failed to move
+    else {
+        warn "Could not move $file_name: $!" ;
     }
 }
