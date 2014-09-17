@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{enumitem}
+
+\begin{document}
+The basic diode equation is given by
+\begin{equation*}
+    i_D = I_0(\mathrm{e}^\frac{qv_D}{kT} - 1)
+\end{equation*}
+\begin{enumerate}[label=(\alph*)]
+    \item
+        Use the Taylor Series Expansion (TSE) method to expand this equation
+        about the point, ($V_D$, $I_D$), remembering that the TSE of a
+        function $f(x)$ around a point $a$ is given by
+
+        \begin{equation*}
+            f(x) = \sum_{n = 0}^{\infty} \frac{f^{(n)}(a)}{n!} (x - a)^n
+        \end{equation*}
+
+        where $f^{(n)}(a)$ indicates the $n$th derivative of the function $f$
+        with respect to the variable $x$ evaluated at $a$.
+
+    \item
+        Show that if $v_d \ll \frac{kT}{q}$, all terms beyond the first two in
+        the expansion can be dropped; that is, $i_D \approx I_D +
+        \frac{v_d}{r_d}$
+\end{enumerate}
+\end{document}

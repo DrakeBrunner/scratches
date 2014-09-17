@@ -1,0 +1,391 @@
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{amsmath}
+
+\title{ECE345 Assignment 3}
+\author{Naoki Mizuno}
+
+\begin{document}
+\maketitle
+
+\section*{Part 1}
+\subsection*{2-171}
+\begin{itemize}
+    \item 40\% Highly successful $\rightarrow$ 95\% got good reviews
+    \item 35\% Moderately successful $\rightarrow$ 60\% got good reviews
+    \item 25\% Poor $\rightarrow$ 10\% got good reviews
+\end{itemize}
+
+\begin{enumerate}[label=(\alph*)]
+    % a
+    \item
+        Let $H$, $M$, $P$ denote the event that a product is highly
+        successful, moderately successful, and poor, respectively. Also, let
+        $G$ denote the event that the product got good reviews.
+
+        % P(G and H)
+        \begin{equation*}
+            \begin{aligned}
+                P(G \cap H) &= P(G \vert H) P(H)\\
+                           &= 0.95 \times 0.4 \\
+                           &= 0.38
+            \end{aligned}
+        \end{equation*}
+        % P(G and M)
+        \begin{equation*}
+            \begin{aligned}
+                P(G \cap M) &= P(G \vert M) P(M)\\
+                           &= 0.6 \times 0.35 \\
+                           &= 0.21
+            \end{aligned}
+        \end{equation*}
+        % P(G and P)
+        \begin{equation*}
+            \begin{aligned}
+                P(G \cap P) &= P(G \vert P) P(P)\\
+                            &= 0.1 \times 0.25 \\
+                            &= 0.025
+            \end{aligned}
+        \end{equation*}
+
+        Since $P(G \cap H)$, $P(G \cap M)$, $P(G \cap P)$ are mutually
+        exclusive,
+
+        % Calculate P(G)
+        \begin{equation*}
+            \begin{aligned}
+                P(G) &= P(G \cap H) + P(G \cap M) + P(G \cap P) \\
+                     &= 0.38 + 0.19 + 0.025 \\
+                     &= 0.595
+            \end{aligned}
+        \end{equation*}
+
+    % b
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(H \vert G) &= \frac{P(H \cap G)}{P(G)} \\
+                &= \frac{0.38}{0.595} \\
+                &= 0.638655462
+            \end{aligned}
+        \end{equation*}
+
+    % c
+    \item
+        \begin{equation*}
+            P(H \vert G') = \frac{P(H \cap G')}{P(G')}
+        \end{equation*}
+        \begin{equation*}
+            \begin{aligned}
+                P(H \cap G') &= 0.4 \times 0.05 \\
+                             &= 0.02
+            \end{aligned}
+        \end{equation*}
+        \begin{equation*}
+            \begin{aligned}
+                P(G') &= 1 - P(G) \\
+                      &= 0.405
+            \end{aligned}
+        \end{equation*}
+
+        Thus,
+
+        \begin{equation*}
+            \begin{aligned}
+                P(H \vert G') &= \frac{0.02}{0.405} \\
+                              &= 0.049382716
+            \end{aligned}
+        \end{equation*}
+\end{enumerate}
+
+\subsection*{2-179}
+Let $S$ denote the event that a message is spam. Let $F$ denote the event that
+a message contains the word ``free''.
+
+\begin{enumerate}[label=(\alph*)]
+    % a
+    \item
+        \begin{equation*}
+            P(F) = P(S \cap F) + P(S' \cap F) \\
+        \end{equation*}
+        \begin{equation*}
+            \begin{aligned}
+                P(S \cap F) &= P(F \vert S) P(S) \\
+                            &= 0.6 \times 0.2 \\
+                            &= 0.12
+            \end{aligned}
+        \end{equation*}
+        \begin{equation*}
+            \begin{aligned}
+                P(S' \cap F) &= P(F \vert S') P(S') \\
+                             &= 0.04 \times 0.8 \\
+                             &= 0.032
+            \end{aligned}
+        \end{equation*}
+
+        Thus,
+
+        \begin{equation*}
+            \begin{aligned}
+                P(F) &= 0.12 + 0.032 \\
+                     &= 0.152
+            \end{aligned}
+        \end{equation*}
+
+    % b
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(S \vert F) &= \frac{P(S \cap F)}{P(F)} \\
+                             &= \frac{0.12}{0.152} \\
+                             &= 0.789473684
+            \end{aligned}
+        \end{equation*}
+
+    % c
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(S' \vert F') &= \frac{P(S' \cap F')}{P(F')} \\
+                               &= \frac{(P(S \cup F))'}{P(F')} \\
+                               &= \frac{(P(S) + P(F) - P(S \cap F))'}{P(F')} \\
+                               &= \frac{1 - (0.2 + 0.152 - 0.12)}{1 - 0.152} \\
+                               &= 0.905660377
+            \end{aligned}
+        \end{equation*}
+\end{enumerate}
+
+\subsection*{2-183}
+\begin{enumerate}[label=(\alph*)]
+    \item Discrete because samples will be counted in integers.
+    \item Continuous because weight is not discrete.
+    \item Discrete because number of molecules can be counted in integers.
+    \item Continuous because concentration is not discrete.
+    \item Continuous because current is not discrete.
+\end{enumerate}
+
+\section*{Part 2}
+\subsection*{3-17}
+\begin{equation*}
+    X = \{-2, -1, 0, 1, 2\}
+\end{equation*}
+\begin{equation*}
+    \begin{aligned}
+        \sum_{i = 1}^{n} f(x_i) &= f(-2) + f(-1) + f(0) + f(1) + f(2) \\
+                                &= 0.2 + 0.4 + 0.1 + 0.2 + 0.1 \\
+                                &= 1
+    \end{aligned}
+\end{equation*}
+\begin{equation*}
+    f(x_i) = P(X = x_i) \geq 0
+\end{equation*}
+
+\begin{enumerate}[label=(\alph*)]
+    % a
+    \item
+        Since all X values are less than or equal to 2,
+        \begin{equation*}
+            P(X \leq 2) = 1
+        \end{equation*}
+
+    % b
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(X > -2) &= P(X = -1) + P(X = 0) + ... + P(X = 2) \\
+                            &= 1 - P(X = -2) \\
+                            &= 0.8
+            \end{aligned}
+        \end{equation*}
+
+    % c
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(-1 \leq X \leq 1) &= P(X = -1) + P(X = 0) + P(X = 1) \\
+                                    &= 0.7
+            \end{aligned}
+        \end{equation*}
+
+    % d
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(X \leq -1 \text{ or } X = 2) &= P(X = -1) + P(X = -2) + P(X = 2) \\
+                                      &= 0.7
+            \end{aligned}
+        \end{equation*}
+\end{enumerate}
+
+\subsection*{3-19}
+\begin{equation*}
+    f(x) = \frac{2x + 1}{25} \text{ where } x = \{0, 1, 2, 3, 4\}
+\end{equation*}
+
+\begin{equation*}
+    \begin{aligned}
+        \sum_{i = 1}^{n} f(x_i) &= \frac{1}{25} + \frac{3}{25} + \frac{5}{25}
+                                    + \frac{7}{25} + \frac{9}{25} \\
+                                &= \frac{25}{25} \\
+                                &= 1
+    \end{aligned}
+\end{equation*}
+
+Also,
+
+\begin{equation*}
+    f(x_i) = P(X = i) \geq 0
+\end{equation*}
+
+\begin{enumerate}[label=(\alph*)]
+    % a
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(X = 4) &= \frac{2 \times 4 + 1}{25} \\
+                         &= \frac{9}{25}
+            \end{aligned}
+        \end{equation*}
+    % b
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(X \leq 1) &= P(X = 0) + P(X = 1) \\
+                            &= \frac{1}{25} + \frac{3}{25} \\
+                            &= \frac{4}{25}
+            \end{aligned}
+        \end{equation*}
+
+    % c
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(2 \leq X < 4) &= P(X = 2) + P(X = 3) \\
+                                &= \frac{2 \times 2 + 1}{25}
+                                    + \frac{2 \times 3 + 1}{25} \\
+                                &= \frac{12}{25}
+            \end{aligned}
+        \end{equation*}
+
+    % d
+    \item
+        \begin{equation*}
+            \begin{aligned}
+                P(X > -10) &= P(X = 0) + P(X = 1) + ... + P(X = 4) \\
+                           &= 1
+            \end{aligned}
+        \end{equation*}
+\end{enumerate}
+
+\subsection*{3-25}
+Probability Mass Function is:
+
+\begin{equation*}
+    \begin{aligned}
+        f(x) = 0.2^{3-x} \cdot 0.8^x \text{ for } X = \{0, 1, 2, 3\}
+    \end{aligned}
+\end{equation*}
+
+\subsection*{3-39}
+
+\begin{equation*}
+    F(x) = 
+    \left\{
+        \begin{array}{rr@{\hspace{5pt}}l}
+            0   &         & x < -2 \\
+            0.2 & -2 \leq & x < -1 \\
+            0.6 & -1 \leq & x < 1 \\
+            0.7 & 0  \leq & x < 1 \\
+            0.9 & 1  \leq & x < 2 \\
+            1   & 2  \leq & x
+        \end{array}
+        \right.
+\end{equation*}
+
+\begin{enumerate}[label=(\alph*)]
+    \item $P(X \leq 1.25) = 0.7$
+    \item $P(X \leq 2.2) = 1$
+    \item $P(-1.1 < X \leq 1) = 0.6$
+    \item $P(X > 0) = 0.6$
+\end{enumerate}
+
+\subsection*{3-51}
+\begin{enumerate}[label=(\alph*)]
+    \item
+        $P(X \leq 50) = 1$
+    \item
+        $P(X \leq 40) = 0.75$
+    \item
+        $P(40 \leq X \leq 60) = 0.25$
+    \item
+        $P(X < 0) = 0.25$
+    \item
+        $P(0 \leq X < 10) = 0$
+    \item
+        $P(-10 < X < 10) = 0$
+\end{enumerate}
+
+\subsection*{3-59}
+\begin{description}
+    \item[Mean]
+        $0$
+    \item[Variance]
+        \begin{equation*}
+            \begin{aligned}
+                \mu &= (-2 \times 0.2) + (-1 \times 0.4) + (0 \times 0.1) + (1 \times 0.2) + (2 \times 0.1) \\
+                    &= -0.4 \\
+            \end{aligned}
+        \end{equation*}
+        \begin{equation*}
+            \sum_{i = 1}^{5} (x_i + 0.4)^2 f(x_i) = 1.64
+        \end{equation*}
+\end{description}
+\subsection*{3-75}
+The result can be either ``0 device fails'', ``1 device fails'', or ``2
+devices fail''.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $X$ & 0 & 1 & 2 \\
+        \hline
+        $f(x)$ & 0.72 & 0.26 & 0.02 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The mean (i.e. the expectation) can be calculated by:
+\[
+    0 \times 0.72 + 1 \times 0.26 + 2 \times 0.02 = 0.28
+\]
+
+\subsection*{3-84}
+Since
+\[
+    \mu = \sum_{x} xf(x)
+\]
+, multiplying each values (i.e. $f(x_i)$) in $X$ by a constant $c$ gives
+
+\[
+    \mu' = \sum_{x} xcf(x)
+\]
+
+Since
+\[
+    \sum_{x} cf(x) = c
+\]
+,
+\[
+    \mu' = c\mu
+\]
+
+Also, since variance is calculated by
+\begin{equation*}
+    \begin{aligned}
+        \sum_{x} x^2f(x) - \mu'^2 \\
+        = c^2 \sum_{x} x^2f(x) - \mu^2
+    \end{aligned}
+\end{equation*}
+
+\end{document}
